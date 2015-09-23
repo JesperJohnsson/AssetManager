@@ -1,0 +1,114 @@
+<div class="col-md-6">
+    <form id="addasset" ng-submit="submit()">
+
+        <div class="page-header">
+            <h1><small>Add a product</small></h1>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <span class="input-group-addon" id="addon-serialnr">Serial No.</span>
+                    <input id="inp1" type="text" class="form-control" aria-describedby="addon-serialnr" ng-model="serialNr" ng-keypress="switchFocus($event)">
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <span class="input-group-addon" id="addon-productnr">Product No.</span>
+                    <input id="inp2" type="text" class="form-control" placeholder="Search for..." aria-describedby="addon-productnr" ng-model="productNr"  ng-keypress="switchFocus($event)">
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="sel1">Select product:</label>
+                    <select class="form-control" id="sel1" ng-model="productName">
+                        <option ng-repeat="result in searchdata.responseData.results">{{result.titleNoFormatting}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                  <span class="input-group-addon last" id="addon-productname">Product Name</span>
+                  <input id="last" type="text" class="form-control"  aria-describedby="addon-productname" value="{{ productName }}" ng-model="productName">
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row" >
+            <div class="col-md-6 col-xs-12">
+                <div class="input-group">
+                  <span class="input-group-addon last" id="addon-warranty">Warranty</span>
+                  <input type="number" class="form-control"  aria-describedby="addon-warranty" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="0" max="10" ng-model="warranty">
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <div class="input-group">
+                    <span class="input-group-addon last" id="addon-lifespan">Lifespan</span>
+                    <input type="number" class="form-control"  aria-describedby="addon-lifespan" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="0" max="10" ng-model="lifespan">
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="sel2">Select type:</label>
+                    <select class="form-control" id="sel2" ng-model="type">
+                        <option ng-repeat="type in types">{{type}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <input type="hidden" value='STORAGE' ng-model="status">
+
+        <div class="row">
+            <div class="col-md-12">
+                <input type="submit" id="submit" value="Create" class="btn btn-success" >
+            </div>
+        </div>
+
+        <br>
+
+        <div class="alert alert-success" ng-show="resultOfQueryS != null">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-ok"></span> <strong>Product Created</strong>
+        </div>
+        <div class="alert alert-danger" ng-show="resultOfQueryF != null">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-ok"></span> <strong>Error, product not created.</strong>
+        </div>
+
+    </form>
+</div>
+
+<div class="col-md-6">
+    <p>{{ serialNr }}</p>
+    <p>{{ productNr }}</p>
+    <p>{{ productName }}</p>
+    <p>{{ status }}</p>
+    <p>{{ type }}</p>
+    <p>{{ warranty }}</p>
+    <p>{{ lifespan }}</p>
+</div>

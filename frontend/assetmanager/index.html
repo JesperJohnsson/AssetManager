@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+
+    <!-- Meta Data -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Title -->
+    <title>Asset Management</title>
+
+    <!-- Favicon -->
+    <!--<link rel="shortcut icon" href="img/favicon.ico" />-->
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- AngularJS -->
+    <script src="//code.angularjs.org/1.4.5/angular.min.js"></script>
+    <script src="//code.angularjs.org/1.4.5/angular-route.min.js"></script>
+    <script src="//code.angularjs.org/1.4.5/angular-resource.min.js"></script>
+
+    </script>
+
+    <script src="app.js"></script>
+</head>
+
+<body>
+    <div class="row">
+        <!-- Menu -->
+        <div class="side-menu">
+            <nav class="navbar navbar-default" role="navigation">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <div class="brand-wrapper">
+                        <!-- Hamburger -->
+                        <button type="button" class="navbar-toggle">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <!-- Brand -->
+                        <div class="brand-name-wrapper">
+                            <a class="navbar-brand" href="#/">
+                                Asset Manager
+                            </a>
+                        </div>
+
+                        <!-- Search -->
+                        <a data-toggle="collapse" href="#search" class="btn btn-default" id="search-trigger">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+
+                        <!-- Search body -->
+                        <div id="search" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form class="navbar-form" role="search">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Search">
+                                    </div>
+                                    <button type="submit" class="btn btn-default white"><span class="glyphicon glyphicon-ok" ></span></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Menu -->
+                <div class="side-menu-container">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#/"><span class="glyphicon glyphicon-import"></span> Goods Dpt. / Staff dividend</a></li>
+                        <li><a href="#/second"><span class="glyphicon glyphicon-export"></span> Staff Submission</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-refresh"></span> Substitution</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-list-alt"></span> Inventory</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-usd"></span> Budget / Disposals</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Staff List</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-stats"></span> Statistics</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid">
+            <div class="side-body">
+                <div class="col-xs-12 col-s-12 col-md-12 col-lg-12" ng-view></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
