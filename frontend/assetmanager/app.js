@@ -1,6 +1,6 @@
 
 //Angular
-var myApp = angular.module('myApp', ['ngRoute', 'ngResource']);
+var myApp = angular.module('myApp', ['ngRoute', 'ngResource','ngSanitize', 'ui.select']);
 
 //Navigation
 myApp.config(function ($routeProvider) {
@@ -21,8 +21,6 @@ myApp.config(function ($routeProvider) {
 
 });
 
-
-
 myApp.factory("ProductFactory", function($resource) {
     return $resource("/api/product/:productId", {}, {
         update: { method: "PUT" }
@@ -35,7 +33,65 @@ myApp.factory("StaffFactory", function($resource) {
     });
 });
 
-myApp.controller('mainController', ['$scope', '$http', 'ProductFactory', function($scope, $http, ProductFactory) {
+myApp.factory("StaffProductFactory", function($resource) {
+    return $resource("/api/staffproduct/:productId", {}, {
+        update: { method: "PUT" }
+    });
+});
+
+myApp.filter('propsFilter', function() {
+  return function(items, props) {
+    var out = [];
+
+    if (angular.isArray(items)) {
+      items.forEach(function(item) {
+        var itemMatches = false;
+
+        var keys = Object.keys(props);
+        for (var i = 0; i < keys.length; i++) {
+          var prop = keys[i];
+          var text = props[prop].toLowerCase();
+          if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+            itemMatches = true;
+            break;
+          }
+        }
+
+        if (itemMatches) {
+          out.push(item);
+        }
+      });
+    } else {
+      // Let the output be the input untouched
+      out = items;
+    }
+
+    return out;
+  }
+});
+
+myApp.controller('mainController', ['$scope', '$http', 'ProductFactory', 'StaffFactory', 'StaffProductFactory', function($scope, $http, ProductFactory, StaffFactory, StaffProductFactory) {
+    //The different types an asset can have.
+    $scope.types = ["Computer", "Screen", "Phone", "Printer", "License"];
+    $scope.type = $scope.types[0];
+
+    $http.get('/api/product/lastinserted').
+    then(function(response) {
+        $scope.a = response.data;
+        alert($scope.a);
+    });
+
+    //To hide the last select element //Assign asset to Staff
+    $scope.assignasset = false;
+
+    //To store the chosen staff
+    $scope.staff = {};
+
+    //Get all the staffmembers from database
+    StaffFactory.query(function(data) {
+        $scope.staffmembers = data;
+    });
+
     $scope.switchFocus = function(keyEvent) {
         if (keyEvent.which === 13) {
             keyEvent.preventDefault();
@@ -75,7 +131,13 @@ myApp.controller('mainController', ['$scope', '$http', 'ProductFactory', functio
     $scope.submit = function() {
         $scope.resultOfQueryF = null;
         $scope.resultOfQueryS = null;
+
         if($scope.serialNr && $scope.productNr && $scope.productName) {
+            $scope.status = 'storage';
+
+            if($scope.assignasset === true && $scope.staff.selected.id !== null ) {
+                $scope.status = 'owned';
+            }
 
             //Create an array of the new record
             var product = {
@@ -84,12 +146,24 @@ myApp.controller('mainController', ['$scope', '$http', 'ProductFactory', functio
                 'productName' : $scope.productName,
                 'warranty' : $scope.formatDate($scope.warranty),
                 'lifespan' : $scope.formatDate($scope.lifespan),
-                'status' : 'STORAGE',
+                'status' : $scope.status,
                 'type' : $scope.type,
+                'owner' : $scope.owner
             };
 
-            //Add new record of product
             ProductFactory.save(product);
+
+            //To add the relation between a product and a staff
+            var staffproduct = {
+                'productId': $scope.a.productId,
+                'staffId': $scope.staff.selected.staffId
+            }
+
+            StaffProductFactory.save(staffproduct);
+
+
+            //Add new record of product
+
 
             //Set success output
             $scope.resultOfQueryS = true;
@@ -98,14 +172,10 @@ myApp.controller('mainController', ['$scope', '$http', 'ProductFactory', functio
             $scope.resultOfQueryF = true;
         }
     };
-
-    //The different types an asset can have.
-    $scope.types = ["Computer", "Screen", "Phone", "Printer", "License"];
-
 }]);
 
 
-myApp.controller('secondController',['$scope', '$routeParams', 'ProductFactory', 'StaffFactory', function($scope, $routeParams, ProductFactory, StaffFactory) {
+myApp.controller('secondController',['$scope', '$http', '$routeParams', 'ProductFactory', 'StaffFactory', 'StaffProductFactory', function($scope, $http, $routeParams, ProductFactory, StaffFactory, StaffProductFactory) {
     //GETALL
     ProductFactory.query(function(data) {
         $scope.products = data;
@@ -115,6 +185,18 @@ myApp.controller('secondController',['$scope', '$routeParams', 'ProductFactory',
         $scope.staffs = data;
     });
 
+    StaffProductFactory.query(function(data) {
+        $scope.sp = data;
+    });
+
+
+    var staffproduct = {
+        'productId': 15,
+        'staffId': 1
+    }
+
+    StaffProductFactory.save(staffproduct);
+
     /*$scope.test = 'b';
 
     //GETONE
@@ -123,7 +205,7 @@ myApp.controller('secondController',['$scope', '$routeParams', 'ProductFactory',
     });*/
 
     //DELETE
-    //ProductFactory.delete({serialNr:'a'});
+    //ProductFactory.delete({productId:'5'});
 
     //INSERT
     var data2 = {
@@ -150,12 +232,13 @@ myApp.controller('secondController',['$scope', '$routeParams', 'ProductFactory',
 
     var staff = {
         //staffId : 2,
-        name : 'bolisen',
-        phone : '112'
+        name : 'Jesper',
+        phone : '123123'
     }
 
     //StaffFactory.update({staffId: staff.staffId}, staff);
     //StaffFactory.save(staff);
+    //StaffFactory.delete({staffId: 3});
 
 
 }]);

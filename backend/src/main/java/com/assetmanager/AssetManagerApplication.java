@@ -13,7 +13,9 @@ import io.dropwizard.setup.Environment;
 import com.assetmanager.configuration.AssetManagerConfiguration;
 import com.assetmanager.dao.ProductDAO;
 import com.assetmanager.dao.StaffDAO;
+import com.assetmanager.dao.StaffProductDAO;
 import com.assetmanager.solution.ProductResource;
+import com.assetmanager.solution.StaffProductResource;
 import com.assetmanager.solution.StaffResource;
 
 /**
@@ -35,6 +37,9 @@ public class AssetManagerApplication extends Application<AssetManagerConfigurati
 		
 		final StaffDAO staffDao = jdbi.onDemand(StaffDAO.class);
 		environment.jersey().register(new StaffResource(staffDao));
+		
+		final StaffProductDAO staffproductDao = jdbi.onDemand(StaffProductDAO.class);
+		environment.jersey().register(new StaffProductResource(staffproductDao));
     }
     
     @Override

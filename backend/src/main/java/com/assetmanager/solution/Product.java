@@ -96,6 +96,7 @@ public class Product {
 		this.type = type;
 		return this;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

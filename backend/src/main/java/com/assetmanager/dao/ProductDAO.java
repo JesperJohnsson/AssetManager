@@ -26,7 +26,7 @@ public interface ProductDAO {
 	@SqlUpdate("DELETE FROM PRODUCT WHERE PRODUCTID = :productId")
 	int deleteByProductId(@Bind("productId") int productId);
 	
-	@SqlUpdate("UPDATE PRODUCT SET SERIALNR = :serialNr, PRODUCTNR = :productNr, PRODUCTNAME = :productName, STATUS = :status, WARRANTY = :warranty, LIFESPAN = :lifespan, TYPE = :type WHERE PRODUCTID = :productId")
+	@SqlUpdate("UPDATE PRODUCT SET SERIALNR = :serialNr, PRODUCTNR = :productNr, PRODUCTNAME = :productName, STATUS = :status, WARRANTY = :warranty, LIFESPAN = :lifespan, TYPE = :type, OWNER = :owner WHERE PRODUCTID = :productId")
 	int update(@BindBean Product product);
 	
 	@SqlUpdate("INSERT INTO PRODUCT (PRODUCTID, SERIALNR, PRODUCTNR, PRODUCTNAME, WARRANTY, LIFESPAN, STATUS, TYPE) VALUES(:productId, :serialNr, :productNr, :productName, :warranty, :lifespan, :status, :type)")

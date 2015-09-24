@@ -31,6 +31,12 @@ public class ProductResource {
 	}
 	
 	@GET
+	@Path("/lastinserted")
+	public Product getLastInsertedRow() {
+		return productDAO.findByProductId(productDAO.getCount());
+	}
+	
+	@GET
 	@Path("/{productId}")
 	public Product get(@PathParam("productId") int productId) {
 		return productDAO.findByProductId(productId);

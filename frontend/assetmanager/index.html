@@ -21,15 +21,32 @@
 
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.12.1/select.css" rel="stylesheet">
 
     <!-- AngularJS -->
-    <script src="//code.angularjs.org/1.4.5/angular.min.js"></script>
-    <script src="//code.angularjs.org/1.4.5/angular-route.min.js"></script>
-    <script src="//code.angularjs.org/1.4.5/angular-resource.min.js"></script>
+    <script src="//code.angularjs.org/1.4.6/angular.min.js"></script>
+    <script src="//code.angularjs.org/1.4.6/angular-route.min.js"></script>
+    <script src="//code.angularjs.org/1.4.6/angular-resource.min.js"></script>
+    <script src="//code.angularjs.org/1.4.6/angular-sanitize.min.js"></script>
 
-    </script>
 
+    <!--Own Script -->
     <script src="app.js"></script>
+
+    <style>
+    body {
+      padding: 15px;
+    }
+
+    .select2 > .select2-choice.ui-select-match {
+      /* Because of the inclusion of Bootstrap */
+      height: 29px;
+    }
+
+    .selectize-control > .selectize-dropdown {
+      top: 36px;
+    }
+  </style>
 </head>
 
 <body>
@@ -92,19 +109,17 @@
         <!-- Main Content -->
         <div class="container-fluid">
             <div class="side-body">
-                <div class="col-xs-12 col-s-12 col-md-12 col-lg-12" ng-view></div>
+                <div class="col-xs-12" ng-view></div>
             </div>
         </div>
     </div>
-
-
-
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.12.1/select.js"></script>
 
     <!-- Custom JavaScript -->
     <script src="js/script.js"></script>

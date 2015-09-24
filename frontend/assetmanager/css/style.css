@@ -1,4 +1,10 @@
 /*rgb(255, 163, 71); Main orange color*/
+/*OBS! Gör så allt inte har någon border radius!*/
+/*------------------*/
+* {
+  border-radius: 0 !important;
+}
+/*------------------*/
 
 .white {
     background-color: #FFF !important;
@@ -8,10 +14,18 @@
   outline: none;
 }
 
+.form-group {
+  overflow: auto;
+}
+
+.margin-bottom {
+    margin-bottom: 15px;
+}
 
 .row {
   margin-right: 0;
   margin-left: 0;
+  margin-bottom:
 }
 
 .side-menu {
