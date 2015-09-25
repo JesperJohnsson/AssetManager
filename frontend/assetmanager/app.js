@@ -70,16 +70,11 @@ myApp.filter('propsFilter', function() {
   }
 });
 
-myApp.controller('mainController', ['$scope', '$http', 'ProductFactory', 'StaffFactory', 'StaffProductFactory', function($scope, $http, ProductFactory, StaffFactory, StaffProductFactory) {
+myApp.controller('mainController', ['$scope', '$http', '$timeout', 'ProductFactory', 'StaffFactory', 'StaffProductFactory', function($scope, $http, $timeout, ProductFactory, StaffFactory, StaffProductFactory) {
+
     //The different types an asset can have.
     $scope.types = ["Computer", "Screen", "Phone", "Printer", "License"];
     $scope.type = $scope.types[0];
-
-    $http.get('/api/product/lastinserted').
-    then(function(response) {
-        $scope.a = response.data;
-        alert($scope.a);
-    });
 
     //To hide the last select element //Assign asset to Staff
     $scope.assignasset = false;
@@ -91,6 +86,8 @@ myApp.controller('mainController', ['$scope', '$http', 'ProductFactory', 'StaffF
     StaffFactory.query(function(data) {
         $scope.staffmembers = data;
     });
+
+    $scope.ab = {};
 
     $scope.switchFocus = function(keyEvent) {
         if (keyEvent.which === 13) {
@@ -135,7 +132,7 @@ myApp.controller('mainController', ['$scope', '$http', 'ProductFactory', 'StaffF
         if($scope.serialNr && $scope.productNr && $scope.productName) {
             $scope.status = 'storage';
 
-            if($scope.assignasset === true && $scope.staff.selected.id !== null ) {
+            if($scope.assignasset === true) {
                 $scope.status = 'owned';
             }
 
@@ -148,21 +145,24 @@ myApp.controller('mainController', ['$scope', '$http', 'ProductFactory', 'StaffF
                 'lifespan' : $scope.formatDate($scope.lifespan),
                 'status' : $scope.status,
                 'type' : $scope.type,
-                'owner' : $scope.owner
             };
 
-            ProductFactory.save(product);
-
-            //To add the relation between a product and a staff
-            var staffproduct = {
-                'productId': $scope.a.productId,
-                'staffId': $scope.staff.selected.staffId
-            }
-
-            StaffProductFactory.save(staffproduct);
-
-
             //Add new record of product
+            if($scope.assignasset === true) {
+                ProductFactory.save(product, function() {
+                    $http.get('/api/product/lastinserted').
+                    then(function(response) {
+                        $scope.ab = response.data;
+                        var staffproduct = {
+                            'productId': $scope.ab.productId,
+                            'staffId': $scope.staff.staffId,
+                        }
+                        StaffProductFactory.save(staffproduct);
+                    });
+                });
+            } else {
+                ProductFactory.save(product);
+            }
 
 
             //Set success output
@@ -190,12 +190,12 @@ myApp.controller('secondController',['$scope', '$http', '$routeParams', 'Product
     });
 
 
-    var staffproduct = {
+    /*var staffproduct = {
         'productId': 15,
         'staffId': 1
     }
 
-    StaffProductFactory.save(staffproduct);
+    StaffProductFactory.save(staffproduct);*/
 
     /*$scope.test = 'b';
 
@@ -208,7 +208,7 @@ myApp.controller('secondController',['$scope', '$http', '$routeParams', 'Product
     //ProductFactory.delete({productId:'5'});
 
     //INSERT
-    var data2 = {
+    /*var data2 = {
         'serialNr' : 'CND445B8PH',
         'productNr' : 'K7H41ES#UUW',
         'productName' : 'HP X360 310 G1',
@@ -230,7 +230,7 @@ myApp.controller('secondController',['$scope', '$http', '$routeParams', 'Product
 
     //ProductFactory.save()
 
-    var staff = {
+    /*var staff = {
         //staffId : 2,
         name : 'Jesper',
         phone : '123123'
@@ -238,7 +238,7 @@ myApp.controller('secondController',['$scope', '$http', '$routeParams', 'Product
 
     //StaffFactory.update({staffId: staff.staffId}, staff);
     //StaffFactory.save(staff);
-    //StaffFactory.delete({staffId: 3});
+    //StaffFactory.delete({staffId: 3});*/
 
 
 }]);
