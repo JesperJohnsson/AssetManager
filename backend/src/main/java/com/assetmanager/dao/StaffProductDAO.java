@@ -8,8 +8,8 @@ import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
-import com.assetmanager.solution.StaffProduct;
-import com.assetmanager.solution.mapper.StaffProductMapper;
+import com.assetmanager.solution.staffproduct.StaffProduct;
+import com.assetmanager.solution.staffproduct.mapper.StaffProductMapper;
 
 @RegisterMapper(StaffProductMapper.class)
 public interface StaffProductDAO {
@@ -17,16 +17,16 @@ public interface StaffProductDAO {
 	@SqlQuery("SELECT * FROM STAFFPRODUCT")
 	List<StaffProduct> getAll();
 	
-	@SqlQuery("SELECT * FROM STAFFPRODUCT WHERE PRODUCTID = :productId")
+	@SqlQuery("SELECT * FROM STAFFPRODUCT WHERE FK_PRODUCTID = :productId")
 	StaffProduct findByProductId(@Bind("productId") int productId);
 	
-	@SqlUpdate("DELETE FROM STAFFPRODUCT WHERE PRODUCTID = :productId")
+	@SqlUpdate("DELETE FROM STAFFPRODUCT WHERE FK_PRODUCTID = :productId")
 	int deleteByProductId(@Bind("productId") int productId);
 	
-	@SqlUpdate("UPDATE STAFFPRODUCT SET STAFFID = :staffId WHERE PRODUCTID = :productId")
+	@SqlUpdate("UPDATE STAFFPRODUCT SET FK_STAFFID = :staffId WHERE FK_PRODUCTID = :productId")
 	int update(@BindBean StaffProduct staffproduct);
 	
-	@SqlUpdate("INSERT INTO STAFFPRODUCT (PRODUCTID, STAFFID) VALUES(:productId, :staffId)")
+	@SqlUpdate("INSERT INTO STAFFPRODUCT (FK_PRODUCTID, FK_STAFFID) VALUES(:productId, :staffId)")
 	int insert(@BindBean StaffProduct staffproduct);	
 	
 	

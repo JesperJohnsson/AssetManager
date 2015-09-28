@@ -20,3 +20,36 @@
 <p>staffid: {{a.staffId}}</p>
 <p>productid: {{a.productId}}</p>
 </div>
+<html lang="en">
+<head>
+<script>
+function getDateDiff(time1, time2) {
+var str1= time1.split('/');
+var str2= time2.split('/');
+var t1 = new Date(str1[2], str1[0]-1, str1[1]);
+var t2 = new Date(str2[2], str2[0]-1, str2[1]);
+
+var diffMS = t1 - t2;
+console.log(diffMS + ' ms');
+
+var diffS = diffMS / 1000;
+console.log(diffS + ' ');
+
+var diffM = diffS / 60;
+console.log(diffM + ' minutes');
+
+var diffH = diffM / 60;
+console.log(diffH + ' hours');
+
+var diffD = diffH / 24;
+console.log(diffD + ' days');
+alert(diffD);
+}
+
+//alert(getDateDiff('10/18/2013','10/14/2013'));
+</script>
+</head>
+<body>
+<input type="button" onclick="getDateDiff('10/18/2013','10/14/2013')" value="clickHere()" />
+</body>
+</html>

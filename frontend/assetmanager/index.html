@@ -29,24 +29,6 @@
     <script src="//code.angularjs.org/1.4.6/angular-resource.min.js"></script>
     <script src="//code.angularjs.org/1.4.6/angular-sanitize.min.js"></script>
 
-
-    <!--Own Script -->
-    <script src="app.js"></script>
-
-    <style>
-    body {
-      padding: 15px;
-    }
-
-    .select2 > .select2-choice.ui-select-match {
-      /* Because of the inclusion of Bootstrap */
-      height: 29px;
-    }
-
-    .selectize-control > .selectize-dropdown {
-      top: 36px;
-    }
-  </style>
 </head>
 
 <body>
@@ -94,10 +76,10 @@
                 <!-- Main Menu -->
                 <div class="side-menu-container">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#/"><span class="glyphicon glyphicon-import"></span> Goods Dpt. / Staff dividend</a></li>
+                        <li><a href="#/product"><span class="glyphicon glyphicon-import"></span> Goods Department</a></li>
                         <li><a href="#/second"><span class="glyphicon glyphicon-export"></span> Staff Submission</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-refresh"></span> Substitution</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-list-alt"></span> Inventory</a></li>
+                        <li><a href="#/inventory"><span class="glyphicon glyphicon-list-alt"></span> Inventory</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-usd"></span> Budget / Disposals</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-user"></span> Staff List</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-stats"></span> Statistics</a></li>
@@ -114,6 +96,15 @@
         </div>
     </div>
 
+    <!--Own Script -->
+    <script src="app.js"></script>
+    <script src="js/config/factory.js"></script>
+    <script src="js/config/filter.js"></script>
+    <script src="js/config/navigation.js"></script>
+    <script src="js/controller/model.js"></script>
+    <script src="js/controller/product.js"></script>
+    <script src="js/controller/inventory.js"></script>
+
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 
@@ -123,6 +114,11 @@
 
     <!-- Custom JavaScript -->
     <script src="js/script.js"></script>
+
+    <!-- Other js stuff -->
+    <script src="js/dirPagination.js"></script>
+
+
 
 </body>
 

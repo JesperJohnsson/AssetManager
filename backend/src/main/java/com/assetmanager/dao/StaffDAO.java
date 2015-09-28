@@ -8,8 +8,8 @@ import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
-import com.assetmanager.solution.Staff;
-import com.assetmanager.solution.mapper.StaffMapper;
+import com.assetmanager.solution.staff.Staff;
+import com.assetmanager.solution.staff.mapper.StaffMapper;
 
 @RegisterMapper(StaffMapper.class)
 public interface StaffDAO {
@@ -26,9 +26,9 @@ public interface StaffDAO {
 	@SqlUpdate("DELETE FROM STAFF WHERE STAFFID = :staffId")
 	int deleteByStaffId(@Bind("staffId") int staffId);
 	
-	@SqlUpdate("UPDATE STAFF SET NAME = :name, PHONE = :phone WHERE STAFFID = :staffId")
+	@SqlUpdate("UPDATE STAFF SET NAME = :name WHERE STAFFID = :staffId")
 	int update(@BindBean Staff staff);
 	
-	@SqlUpdate("INSERT INTO STAFF (STAFFID, NAME, PHONE) VALUES(:staffId, :name, :phone)")
+	@SqlUpdate("INSERT INTO STAFF (STAFFID, NAME) VALUES(:staffId, :name)")
 	int insert(@BindBean Staff staff);	
 }

@@ -1,0 +1,48 @@
+<div class="panel panel-default" style="margin-top:50px;">
+    <div class="panel-heading" style="overflow:auto;">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input id="inp1" type="text" placeholder="Search" class="form-control" aria-describedby="addon-search" ng-model="query">
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th style="width:12.5%;cursor:pointer;" ng-click="sortField = 'name'; reverse = !reverse">Model Name
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th style="width:12.5%;cursor:pointer;"  ng-click="sortField = 'serialNr'; reverse = !reverse">Serial Number
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'serialNr'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th style="width:10%;cursor:pointer;"  ng-click="sortField = 'type'; reverse = !reverse">Type
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'type'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th style="width:10%;cursor:pointer;"  ng-click="sortField = 'status'; reverse = !reverse">Status
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'status'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th style="width:12.5%;cursor:pointer;"  ng-click="sortField = 'p_warranty'; reverse = !reverse">Warranty
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'p_warranty'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th style="width:12.5%;cursor:pointer;"  ng-click="sortField = 'p_lifespan'; reverse = !reverse">Lifespan
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'p_lifespan'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th style="width:20%;cursor:pointer;"  ng-click="sortField = 'comment'; reverse = !reverse">Comment
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'comment'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+            </tr>
+            <tr dir-paginate="item in inventory | filter:query | orderBy:sortField:reverse | itemsPerPage:10">
+                <td>{{ item.name }}</td>
+                <td>{{ item.serialNr }}</td>
+                <td>{{ item.type }}</td>
+                <td>{{ item.status }}</td>
+                <td>{{ item.p_warranty }}</td>
+                <td>{{ item.p_lifespan }}</td>
+                <td>{{ item.comment }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+</div>
