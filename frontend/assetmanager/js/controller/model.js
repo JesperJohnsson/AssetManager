@@ -1,4 +1,6 @@
-angular.module('myApp').controller('modelController', ['$scope', '$http', '$timeout', 'ProductFactory', 'StaffFactory', 'StaffProductFactory', function($scope, $http, $timeout, ProductFactory, StaffFactory, StaffProductFactory) {
+angular.module('myApp').controller('modelController', ['$scope', '$http', '$timeout', 'ProductFactory', 'StaffFactory', 'StaffProductFactory', 'ModelFactory', function($scope, $http, $timeout, ProductFactory, StaffFactory, StaffProductFactory, ModelFactory) {
+
+    document.getElementById("inp1").focus();
 
     //The different types an asset can have.
     $scope.types = ["Computer", "Screen", "Phone", "Printer", "License"];
@@ -22,9 +24,6 @@ angular.module('myApp').controller('modelController', ['$scope', '$http', '$time
             keyEvent.preventDefault();
             var focused = document.activeElement.id;
             if(focused == 'inp1') {
-                document.getElementById("inp2").focus();
-            } else if (focused == 'inp2') {
-
                 $scope.searchTerm2 = 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=' + window.encodeURIComponent($scope.productNr) + '&callback=JSON_CALLBACK&rsz=8';
                 $http({method: 'JSONP', url: $scope.searchTerm2}).
                     then(function(response) {
@@ -35,62 +34,35 @@ angular.module('myApp').controller('modelController', ['$scope', '$http', '$time
                       $scope.searchdata = response.data || "Request failed";
                       $scope.searchstatus = response.status;
                   });
-
-                  document.getElementById("last").focus();
-            } else if (focused == 'last') {
-                //document.getElementById("addasset").submit();
+                document.getElementById("inp2").focus();
             }
         }
     };
-
-    $scope.formatDate = function(add) {
-        var currentDate = new Date();
-        currentDate.setDate(currentDate.getDate() + 365 * add);
-        var yyyy = currentDate.getFullYear();
-        var mm = currentDate.getMonth() + 1;
-        var dd = currentDate.getDate();
-        var futureDateFormatted = yyyy + "-" + mm + "-" + dd;
-        return futureDateFormatted;
-    }
 
     $scope.submit = function() {
         $scope.resultOfQueryF = null;
         $scope.resultOfQueryS = null;
 
-        if($scope.serialNr && $scope.productNr && $scope.productName) {
-            $scope.status = 'storage';
-
-            if($scope.assignasset === true) {
-                $scope.status = 'owned';
-            }
+        if($scope.productName && $scope.productNr && $scope.warranty && $scope.lifespan) {
 
             //Create an array of the new record
-            var product = {
-                'serialNr' : $scope.serialNr,
-                'productNr' : $scope.productNr,
-                'productName' : $scope.productName,
-                'warranty' : $scope.formatDate($scope.warranty),
-                'lifespan' : $scope.formatDate($scope.lifespan),
-                'status' : $scope.status,
-                'type' : $scope.type,
+            var model = {
+                'name': $scope.productName,
+                'type': $scope.type,
+                'm_productNr': $scope.productNr,
+                'm_warranty': $scope.warranty,
+                'm_lifespan': $scope.lifespan
             };
 
-            //Add new record of product
-            if($scope.assignasset === true) {
-                ProductFactory.save(product, function() {
-                    $http.get('/api/product/lastinserted').
-                    then(function(response) {
-                        $scope.ab = response.data;
-                        var staffproduct = {
-                            'productId': $scope.ab.productId,
-                            'staffId': $scope.staff.staffId,
-                        }
-                        StaffProductFactory.save(staffproduct);
-                    });
-                });
-            } else {
-                ProductFactory.save(product);
-            }
+            ModelFactory.save(model);
+
+            $scope.productName = "";
+            $scope.productNr = "";
+            $scope.warranty = "";
+            $scope.lifespan = "";
+            $scope.searchdata = [];
+
+            document.getElementById("inp1").focus();
 
 
             //Set success output

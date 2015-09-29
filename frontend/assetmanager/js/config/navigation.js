@@ -18,9 +18,9 @@ angular.module('myApp').config(function ($routeProvider) {
         controller: 'inventoryController'
     })
 
-    .when('/second', {
-        templateUrl: 'pages/second.html',
-        controller: 'secondController'
+    .when('/substitution', {
+        templateUrl: 'pages/substitute.html',
+        controller: 'substituteController'
     })
 
     .otherwise({redirectTo : '/'});

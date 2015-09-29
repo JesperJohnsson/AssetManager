@@ -29,6 +29,12 @@ public class MpviewResource {
 	}
 	
 	@GET
+	@Path("/storage")
+	public List<Mpview> getStorage() {
+		return mpviewDAO.getStorage();
+	}
+	
+	@GET
 	@Path("/{productId}")
 	public Mpview get(@PathParam("productId") int productId) {
 		return mpviewDAO.findByProductId(productId);

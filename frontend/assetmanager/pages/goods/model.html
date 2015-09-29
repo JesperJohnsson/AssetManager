@@ -1,67 +1,54 @@
-<ol class="breadcrumb" style="background:none;">
-  <li><a href="#/product">Product</a></li>
-  <li><a href="#/model">Model</a></li>
-</ol>
+
 <div class="page-header">
-    <h1>Add model</h1>
+    <h1>Add model <small style="float:right;"><ol class="breadcrumb" style="background:none;">
+      <li><a href="#/product">Product</a></li>
+      <li><a href="#/model">Model</a></li>
+    </ol></small></h1>
 </div>
 <div class="col-lg-6">
     <form id="addasset" ng-submit="submit()">
         <div class="form-group">
             <div class="col-md-12">
-                <div class="input-group">
-                    <span class="input-group-addon" id="addon-productnr">Product No.</span>
-                    <input id="inp2" type="text" class="form-control" placeholder="Search for..." aria-describedby="addon-productnr" ng-model="productNr"  ng-keypress="switchFocus($event)">
-                </div>
+                <label>Product Nr.</label>
+                <input id="inp1" type="text" class="form-control" placeholder="Search for..." ng-model="productNr"  ng-keypress="switchFocus($event)">
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                <div class="input-group">
-                    <span class="input-group-addon" id="addon-selectpname">Name</span>
-                    <select class="form-control" aria-describedby="addon-selectpname" ng-model="productName">
-                        <option ng-repeat="result in searchdata.responseData.results">{{result.titleNoFormatting}}</option>
-                    </select>
-                </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <label>Name</label>
+                <select class="form-control" aria-describedby="addon-selectpname" ng-model="productName">
+                    <option ng-repeat="result in searchdata.responseData.results">{{result.titleNoFormatting}}</option>
+                </select>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                <div class="input-group">
-                  <span class="input-group-addon last" id="addon-productname">Edit Name</span>
-                  <input id="last" type="text" class="form-control"  aria-describedby="addon-productname" value="{{ productName }}" ng-model="productName">
-                </div>
+            <div class="col-lg-6 col-md-12">
+              <label>Edit Name</label>
+              <input id="inp2" type="text" class="form-control" value="{{ productName }}" ng-model="productName">
             </div>
         </div>
         <hr>
         <div class="row" >
             <div class="col-lg-6 col-md-12 margin-bottom">
-                <div class="input-group">
-                  <span class="input-group-addon last" id="addon-warranty">Warranty</span>
-                  <input type="number" class="form-control"  aria-describedby="addon-warranty" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="0" max="10" ng-model="warranty">
-                </div>
+                <label>Warranty</label>
+                <input type="number" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="0" max="25" ng-model="warranty">
             </div>
             <div class="col-lg-6 col-md-12 margin-bottom">
-                <div class="input-group">
-                    <span class="input-group-addon last" id="addon-lifespan">Lifespan</span>
-                    <input type="number" class="form-control"  aria-describedby="addon-lifespan" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="0" max="10" ng-model="lifespan">
-                </div>
+                <label>Lifespan</label>
+                <input type="number" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" max="25" ng-model="lifespan">
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-12">
-                <div class="input-group">
-                    <span class="input-group-addon" id="addon-type">Type</span>
-                    <select class="form-control" ng-model="type" aria-describedby="addon-type">
-                        <option ng-repeat="type in types" value="{{ type }}">{{type}}</option>
-                    </select>
-                </div>
+                <label>Type</label>
+                <select class="form-control" ng-model="type">
+                    <option ng-repeat="type in types" value="{{ type }}">{{type}}</option>
+                </select>
             </div>
         </div>
         <hr>
         <div class="form-group">
             <div class="col-md-12">
-                <input type="submit" id="submit" value="Create" class="btn btn-success" >
+                <input type="submit" id="submit" value="Add" class="btn btn-success" >
             </div>
         </div>
         <div class="alert alert-success" ng-show="resultOfQueryS != null">
@@ -76,7 +63,7 @@
     </form>
 </div>
 
-<div class="col-lg-6">
+<div class="col-lg-4">
     <div class="panel panel-info">
         <div class="panel-heading">Product number</div>
         <div class="panel-body">

@@ -10,7 +10,14 @@ angular.module('myApp').controller('inventoryController', ['$scope','$location',
         } else {
             alert("Error");
         }
-    })
+    });
 
+    //Date.parse(new Date()) represents the current date. Change this to Date.parse("2020-01-01"); to test the functionality, outside of calculateDate function to only be executed once.
+    $scope.currentDate = Date.parse(new Date());
 
+    $scope.calculateDate = function(date) {
+        if(Date.parse(date) < $scope.currentDate)
+            return true;
+        return false;
+    };
 }]);

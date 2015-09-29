@@ -15,6 +15,9 @@ public interface MpviewDAO {
 	@SqlQuery("SELECT * FROM MP")
 	List<Mpview> getAll();
 	
+	@SqlQuery("SELECT * FROM MP WHERE STATUS = 'Stored'")
+	List<Mpview> getStorage();
+	
 	@SqlQuery("SELECT * FROM MP WHERE PRODUCTID = :productId")
 	Mpview findByProductId(@Bind("productId") int productId);
 }

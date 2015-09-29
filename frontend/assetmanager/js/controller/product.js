@@ -1,18 +1,19 @@
-angular.module('myApp').controller('productController', ['$scope','$location', '$http', '$timeout', 'ProductFactory', 'StaffFactory', 'StaffProductFactory', 'ModelFactory', 'ModelProductFactory', function($scope, $location, $http, $timeout, ProductFactory, StaffFactory, StaffProductFactory, ModelFactory, ModelProductFactory) {
+angular.module('myApp').controller('productController', ['$scope','$location', '$http', '$timeout', 'ProductFactory', 'StaffFactory', 'StaffProductFactory', 'ModelFactory', 'ModelProductFactory', 'MpsviewFactory', function($scope, $location, $http, $timeout, ProductFactory, StaffFactory, StaffProductFactory, ModelFactory, ModelProductFactory, MpsviewFactory) {
 
     document.getElementById("inp1").focus();
-
-    $scope.types = ["Computer", "Screen", "Phone", "Printer", "License"];
-    $scope.type = $scope.types[0];
     $scope.staffmembers = [];
+    $scope.storage = [];
 
     //To store the chosen staff
     $scope.staff = {selected: {"staffId":-1,"name":"Storage"}};
+    $scope.item = {};
 
     //Get all the staffmembers from database
     StaffFactory.query(function(data) {
         $scope.staffmembers = data;
     });
+
+
 
     $scope.switchFocus = function(keyEvent) {
         if (keyEvent.which === 13) {
@@ -102,3 +103,53 @@ angular.module('myApp').controller('productController', ['$scope','$location', '
         });
     };
 }]);
+
+/*angular.module('myApp').controller('assignproductController', ['$scope','$location', '$http', '$timeout', 'ProductFactory', 'StaffFactory', 'StaffProductFactory', 'ModelFactory', 'ModelProductFactory', 'MpsviewFactory', function($scope, $location, $http, $timeout, ProductFactory, StaffFactory, StaffProductFactory, ModelFactory, ModelProductFactory, MpsviewFactory) {
+    //Init
+    $scope.staffmembers = [];
+    $scope.storage = [];
+    $scope.staff = {};
+    $scope.item = {};
+    $scope.p = {};
+
+    //Get all the staffmembers
+    StaffFactory.query(function(data) {
+        $scope.staffmembers = data;
+    });
+
+    //Get all stored products
+    $http.get('/api/mpview/storage')
+    .then(function(response) {
+        $scope.storage = response.data;
+    });
+
+    //Function called in product.html by the second form
+    $scope.assignproduct = function(staffId, productId) {
+        if(!angular.isUndefined(staffId) && !angular.isUndefined(productId)) {
+            //Assign product
+            var staffproduct = {
+                'productId': productId,
+                'staffId': staffId,
+            }
+            StaffProductFactory.save(staffproduct, function() {
+                //Update status
+                ProductFactory.get({productId: productId}, function(data) {
+                    $scope.p = data;
+                    if($scope.p.status == "Stored") {
+                        $scope.p.status = 'Owned';
+                        ProductFactory.update({productId:productId}, $scope.p);
+
+                        //Success message
+                        $scope.success = true;
+                    } else {
+                        $scope.error = true;
+                    }
+                })
+            });
+        } else {
+            //Error message
+            $scope.error = true;
+        }
+
+    };
+}]);*/
