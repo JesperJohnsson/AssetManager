@@ -33,9 +33,9 @@ public class ModelProductResource {
 	}
 	
 	@GET
-	@Path("/{modelId}")
-	public ModelProduct get(@PathParam("modelId") int modelId) {
-		return modelproductDAO.findByModelId(modelId);
+	@Path("/{productId}")
+	public ModelProduct get(@PathParam("productId") int productId) {
+		return modelproductDAO.findByModelId(productId);
 	}
 	
 	@POST
@@ -45,16 +45,16 @@ public class ModelProductResource {
 	}
 	
 	@PUT
-	@Path("/{modelId}")
-	public ModelProduct update(@PathParam("modelId") int modelId, @Valid ModelProduct modelproduct) {
-		modelproduct = modelproduct.setModelId(modelId);
+	@Path("/{productId}")
+	public ModelProduct update(@PathParam("productId") int productId, @Valid ModelProduct modelproduct) {
+		modelproduct = modelproduct.setModelId(productId);
 		modelproductDAO.update(modelproduct);
 		return modelproduct;
 	}
 	
 	@DELETE
-	@Path("/{modelId}")
-	public void delete(@PathParam("modelId") int modelId) {
-		modelproductDAO.deleteByModelId(modelId);
+	@Path("/{productId}")
+	public void delete(@PathParam("productId") int productId) {
+		modelproductDAO.deleteByModelId(productId);
 	}
 }

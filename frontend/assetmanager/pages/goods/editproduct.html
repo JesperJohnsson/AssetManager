@@ -1,0 +1,103 @@
+<div class="page-header">
+    <h1>Edit product</h1>
+</div>
+<div class="row margin-bottom">
+    <div class="btn-group" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Product
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#/product">Add</a></li>
+                <li><a href="#/product/edit">Edit</a></li>
+                <li><a href="#/product/remove">Remove</a></li>
+            </ul>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Model
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#/model">Add</a></li>
+                <li><a href="#/model/edit">Edit</a></li>
+                <li><a href="#/model/remove">Remove</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-lg-6">
+        <form id="addasset" ng-submit="editproduct()">
+            <div class="row margin-bottom">
+                <div class="col-md-12">
+                    <label>Existing Products</label>
+                    <div class="input-group">
+                    <ui-select ng-model="product.selected" class="min-width">
+                        <ui-select-match placeholder="Select a product in the list or search ">{{$select.selected.name | limitTo:35 }}</ui-select-match>
+                        <ui-select-choices repeat="product in products | propsFilter: {name: $select.search, serialNr: $select.search}" ng-click="setProductNr(product.selected.p_productNr)">
+                            <div class="left"><img lazy-img="{{product.m_tbimage}}" width="40" height="40"></div>
+                            <div>
+                                <div ng-bind-html="product.name | limitTo:20 | highlight: $select.search"></div>
+                                <small>
+                                    {{product.type}}, serial nr: {{product.serialNr}}
+                                </small>
+                            </div>
+                        </ui-select-choices>
+                    </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom">
+                <div class="col-md-12">
+                    <label>Models</label>
+                    <div class="input-group">
+                    <ui-select ng-model="model.selected" class="min-width">
+                        <ui-select-match placeholder="Select a model in the list or search">{{$select.selected.name | limitTo:35}}</ui-select-match>
+                        <ui-select-choices repeat="model in models | propsFilter: {name: $select.search}" ng-click="setProductNr(model.selected.m_productNr)">
+                            <div class="right" ng-bind-html="model.name | limitTo:27 | highlight: $select.search"></div>
+                            <img lazy-img="{{model.m_tbimage}}" width="25" height="25">
+                        </ui-select-choices>
+                    </ui-select>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label>Serial Nr.</label>
+                    <input id="inp1" type="text" class="form-control" ng-model="product.selected.serialNr" ng-keypress="switchFocus($event)">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label>Product Nr.</label>
+                    <input id="inp2" type="text" class="form-control" ng-model="productNr"  >
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="submit" id="submit" value="Edit" class="btn btn-success">
+                </div>
+            </div>
+        </form>
+        <div class="alert alert-success" ng-show="resultOfQueryS != null">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-ok"></span> <strong>Product Created</strong>
+        </div>
+        <div class="alert alert-danger" ng-show="resultOfQueryF != null">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-ok"></span> <strong>Error, product not created.</strong>
+        </div>
+        <div class="alert alert-danger" ng-show="modelNotFound != null">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-ok"></span> <strong>Model not found, do you want to <a href="#/model">create the model</a>?</strong>
+        </div>
+    </div>
+    <div class="col-lg-6" ng-show="model.selected != null">
+        <img lazy-img="{{model.selected.m_image}}" height="500">
+    </div>
+</div>

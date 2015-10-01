@@ -8,8 +8,28 @@ angular.module('myApp').config(function ($routeProvider) {
         controller: 'productController'
     })
 
+    .when('/product/edit', {
+        templateUrl: 'pages/goods/editproduct.html',
+        controller: 'editproductController'
+    })
+
+    .when('/product/remove', {
+        templateUrl: 'pages/goods/removeproduct.html',
+        controller: 'productController'
+    })
+
     .when('/model', {
         templateUrl: 'pages/goods/model.html',
+        controller: 'modelController'
+    })
+
+    .when('/model/edit', {
+        templateUrl: 'pages/goods/editmodel.html',
+        controller: 'modelController'
+    })
+
+    .when('/model/remove', {
+        templateUrl: 'pages/goods/removemodel.html',
         controller: 'modelController'
     })
 
@@ -23,6 +43,6 @@ angular.module('myApp').config(function ($routeProvider) {
         controller: 'substituteController'
     })
 
-    .otherwise({redirectTo : '/'});
+    .otherwise({redirectTo : '/product'});
 
 });

@@ -5,6 +5,36 @@
  border-radius: 0 !important;
 }
 /*------------------*/
+
+/*Single function classes*/
+.min-width {
+    min-width: 300px;
+}
+
+.margin-bottom {
+    margin-bottom:20px;
+}
+
+.left {
+    float:left;
+}
+
+.right {
+    float:right;
+}
+
+.pointer {
+    cursor:pointer;
+}
+
+.no-background {
+    background:none;
+}
+
+.no-overflow {
+    overflow: auto;
+}
+
 .red {
     color:red;
 }
@@ -26,22 +56,9 @@
  user-select: none;
 }
 
-body {overflow-y:scroll;}
-
-textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
- border-color: rgba(229, 103, 23, 0.8);
- box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(229, 103, 23, 0.6);
- outline: 0 none;
-}
-
-.pagination>.active>a {
- background-color: rgba(255, 163, 71, 0.75) !important;
- border-color: rgba(255, 163, 71, 0.75) !important;
-}
-
 .col-centered{
  float: none;
- §margin: 0 auto;
+ margin: 0 auto;
 }
 
 .btn-success {
@@ -52,15 +69,6 @@ textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
 .btn-success:hover {
  background-color: rgb(255, 163, 71) !important;
  border-color: rgb(255, 163, 71) !important;
-}
-
-.select2 > .select2-choice.ui-select-match {
-  /* Because of the inclusion of Bootstrap */
-  height: 29px;
-}
-
-.selectize-control > .selectize-dropdown {
-  top: 36px;
 }
 
 .white {
@@ -75,15 +83,34 @@ textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
   overflow: auto;
 }
 
-.margin-bottom {
-    margin-bottom: 15px;
-}
-
 .row {
   margin-right: 0;
   margin-left: 0;
 }
 
+.pagination>.active>a {
+ background-color: rgba(255, 163, 71, 0.75) !important;
+ border-color: rgba(255, 163, 71, 0.75) !important;
+}
+
+.select2 > .select2-choice.ui-select-match {
+  /* Because of the inclusion of Bootstrap */
+  height: 29px;
+}
+
+.selectize-control > .selectize-dropdown {
+  top: 36px;
+}
+
+body {overflow-y:scroll;}
+
+textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
+ border-color: rgba(229, 103, 23, 0.8);
+ box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(229, 103, 23, 0.6);
+ outline: 0 none;
+}
+
+/*SIDEBAR*/
 .side-menu {
   position: fixed;
   width: 300px;
@@ -406,3 +433,4 @@ textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
     margin: 0;
   }
 }
+/*END SIDEBAR*/

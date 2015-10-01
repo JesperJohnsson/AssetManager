@@ -2,22 +2,34 @@ angular.module('myApp').controller('productController', ['$scope','$location', '
 
     document.getElementById("inp1").focus();
     $scope.staffmembers = [];
+    $scope.models = [];
     $scope.storage = [];
 
     //To store the chosen staff
     $scope.staff = {selected: {"staffId":-1,"name":"Storage"}};
     $scope.item = {};
+    $scope.model = {};
 
     //Get all the staffmembers from database
     StaffFactory.query(function(data) {
         $scope.staffmembers = data;
+        $scope.staffmembers.unshift({"staffId":-1,"name":"Storage"});
     });
 
+    ModelFactory.query(function(data) {
+        $scope.models = data;
+    });
 
+    $scope.setProductNr = function(productNr) {
+        $scope.m_productNr = productNr;
+    }
+
+    $scope.setFocus = function() {
+        document.getElementById("inp1").focus();
+    }
 
     $scope.switchFocus = function(keyEvent) {
         if (keyEvent.which === 13) {
-
             var focused = document.activeElement.id;
             if(focused == 'inp1') {
                 keyEvent.preventDefault();
@@ -33,7 +45,6 @@ angular.module('myApp').controller('productController', ['$scope','$location', '
         var mm = currentDate.getMonth() + 1;
         var dd = currentDate.getDate();
         var futureDateFormatted = yyyy + "-" + mm + "-" + dd;
-        alert(futureDateFormatted);
         return futureDateFormatted;
     }
 
@@ -95,6 +106,7 @@ angular.module('myApp').controller('productController', ['$scope','$location', '
                 $scope.serialNr = "";
                 $scope.m_productNr = "";
                 $scope.resultOfQueryS = true;
+                $scope.staff = {selected: {"staffId":-1,"name":"Storage"}};
                 document.getElementById("inp1").focus();
             } else {
                 //Failure
@@ -103,6 +115,76 @@ angular.module('myApp').controller('productController', ['$scope','$location', '
         });
     };
 }]);
+
+angular.module('myApp').controller('editproductController', ['$scope','$location', '$http', '$timeout', 'ProductFactory', 'StaffFactory', 'StaffProductFactory', 'ModelFactory', 'ModelProductFactory', 'MpsviewFactory', function($scope, $location, $http, $timeout, ProductFactory, StaffFactory, StaffProductFactory, ModelFactory, ModelProductFactory, MpsviewFactory) {
+
+    $scope.product = {}
+    $scope.products = [];
+    $scope.producttoedit = {};
+
+    $scope.model = {};
+    $scope.models = [];
+
+    //Get all the staffmembers from database
+    $http.get('/api/mpview')
+    .then(function(response) {
+        $scope.products = response.data;
+    });
+
+    ModelFactory.query(function(data) {
+        $scope.models = data;
+    });
+
+    $scope.setProductNr = function(productNr) {
+        $scope.productNr = productNr;
+    };
+
+    $scope.editproduct = function() {
+        if(angular.isDefined($scope.product.selected)) {
+            $http.get('/api/model/productnr/' + window.encodeURIComponent($scope.productNr))
+            .then(function(response) {
+                if(response.status == 200) {
+                    alert($scope.productNr);
+                    $scope.producttoedit = {
+                        'productId' : $scope.product.selected.productId,
+                        'serialNr' : $scope.product.selected.serialNr,
+                        'status' : $scope.product.selected.status,
+                        'p_productNr' : $scope.productNr,
+                        'p_warranty' : $scope.product.selected.p_warranty,
+                        'p_lifespan' : $scope.product.selected.p_lifespan,
+                        'comment': $scope.product.selected.comment
+                    };
+                    ProductFactory.update({productId: $scope.product.selected.productId}, $scope.producttoedit, function() {
+                        ModelProductFactory.delete({productId: $scope.product.selected.productId});
+                        var modelproduct = {
+                            'modelId': response.data.modelId,
+                            'productId': $scope.product.selected.productId,
+                        }
+                        ModelProductFactory.save(modelproduct);
+                    });
+                } else {
+                    //Failure
+                    $scope.modelNotFound = true;
+                }
+            });
+        } else {
+            //Error message
+            alert("undefined");
+        }
+    };
+
+
+    //ProductFactory.update({productId: 1}, producttoedit)
+
+
+    $scope.addproduct = function() {
+        $scope.resultOfQueryF = null;
+        $scope.resultOfQueryS = null;
+
+
+    };
+}]);
+
 
 /*angular.module('myApp').controller('assignproductController', ['$scope','$location', '$http', '$timeout', 'ProductFactory', 'StaffFactory', 'StaffProductFactory', 'ModelFactory', 'ModelProductFactory', 'MpsviewFactory', function($scope, $location, $http, $timeout, ProductFactory, StaffFactory, StaffProductFactory, ModelFactory, ModelProductFactory, MpsviewFactory) {
     //Init

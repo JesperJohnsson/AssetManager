@@ -1,6 +1,5 @@
 package com.assetmanager.solution.model;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 

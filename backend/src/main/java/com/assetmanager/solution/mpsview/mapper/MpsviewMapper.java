@@ -16,6 +16,8 @@ public class MpsviewMapper implements ResultSetMapper<Mpsview> {
 			.setM_productNr(r.getString("M_PRODUCTNR"))
 			.setM_warranty(r.getInt("M_WARRANTY"))
 			.setM_lifespan(r.getInt("M_LIFESPAN"))
+			.setM_image(r.getString("M_IMAGE"))
+			.setM_tbimage(r.getString("M_TBIMAGE"))
 			.setP_id(r.getInt("P_ID"))
 			.setP_name(r.getString("P_NAME"))
 			.setP_type(r.getString("P_TYPE"))

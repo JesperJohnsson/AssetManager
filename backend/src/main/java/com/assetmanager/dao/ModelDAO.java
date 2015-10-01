@@ -29,9 +29,9 @@ public interface ModelDAO {
 	@SqlUpdate("DELETE FROM MODEL WHERE MODELID = :modelId")
 	int deleteByModelId(@Bind("modelId") int model);
 	
-	@SqlUpdate("UPDATE MODEL SET NAME = :name, TYPE = :type, M_PRODUCTNR = :m_productNr, M_WARRANTY = :m_warranty, M_LIFESPAN = :m_lifespan WHERE MODELID = :modelId")
+	@SqlUpdate("UPDATE MODEL SET NAME = :name, TYPE = :type, M_PRODUCTNR = :m_productNr, M_WARRANTY = :m_warranty, M_LIFESPAN = :m_lifespan, M_IMAGE = :m_image WHERE MODELID = :modelId")
 	int update(@BindBean Model model);
 	
-	@SqlUpdate("INSERT INTO MODEL (MODELID, NAME, TYPE, M_PRODUCTNR, M_WARRANTY, M_LIFESPAN) VALUES(:modelId, :name, :type, :m_productNr, :m_warranty, :m_lifespan)")
+	@SqlUpdate("INSERT INTO MODEL (MODELID, NAME, TYPE, M_PRODUCTNR, M_WARRANTY, M_LIFESPAN, M_IMAGE, M_TBIMAGE) VALUES(:modelId, :name, :type, :m_productNr, :m_warranty, :m_lifespan, :m_image, :m_tbimage)")
 	int insert(@BindBean Model model);	
 }

@@ -19,6 +19,11 @@ angular.module('myApp').controller('modelController', ['$scope', '$http', '$time
         $scope.staffmembers = data;
     });
 
+    $scope.setImg = function(imgUrl, thumbUrl) {
+        $scope.img = imgUrl;
+        $scope.thumbnail = thumbUrl;
+    }
+
     $scope.switchFocus = function(keyEvent) {
         if (keyEvent.which === 13) {
             keyEvent.preventDefault();
@@ -27,13 +32,18 @@ angular.module('myApp').controller('modelController', ['$scope', '$http', '$time
                 $scope.searchTerm2 = 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=' + window.encodeURIComponent($scope.productNr) + '&callback=JSON_CALLBACK&rsz=8';
                 $http({method: 'JSONP', url: $scope.searchTerm2}).
                     then(function(response) {
-                      $scope.searchstatus = response.status;
                       $scope.searchdata = response.data;
                       $scope.productName = $scope.searchdata.responseData.results[0].titleNoFormatting;
                     }, function(response) {
                       $scope.searchdata = response.data || "Request failed";
-                      $scope.searchstatus = response.status;
                   });
+                $scope.searchTerm2 = 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=' + window.encodeURIComponent($scope.productNr) + '&callback=JSON_CALLBACK&rsz=8';
+                $http({method: 'JSONP', url: $scope.searchTerm2}).
+                  then(function(response) {
+                    $scope.searchimages = response.data;
+                  }, function(response) {
+                    $scope.searchdata = response.data || "Request failed";
+                });
                 document.getElementById("inp2").focus();
             }
         }
@@ -51,7 +61,9 @@ angular.module('myApp').controller('modelController', ['$scope', '$http', '$time
                 'type': $scope.type,
                 'm_productNr': $scope.productNr,
                 'm_warranty': $scope.warranty,
-                'm_lifespan': $scope.lifespan
+                'm_lifespan': $scope.lifespan,
+                'm_image': $scope.img,
+                'm_tbimage': $scope.thumbnail,
             };
 
             ModelFactory.save(model);
@@ -60,10 +72,11 @@ angular.module('myApp').controller('modelController', ['$scope', '$http', '$time
             $scope.productNr = "";
             $scope.warranty = "";
             $scope.lifespan = "";
+            $scope.img = "";
+            $scope.thumbnail = "";
             $scope.searchdata = [];
 
             document.getElementById("inp1").focus();
-
 
             //Set success output
             $scope.resultOfQueryS = true;

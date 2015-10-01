@@ -1,10 +1,33 @@
-
 <div class="page-header">
-    <h1>Add model <small style="float:right;"><ol class="breadcrumb" style="background:none;">
-      <li><a href="#/product">Product</a></li>
-      <li><a href="#/model">Model</a></li>
-    </ol></small></h1>
+    <h1>Add model</h1>
 </div>
+<div class="row margin-bottom">
+    <div class="btn-group" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Product
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#/product">Add</a></li>
+                <li><a href="#/product/edit">Edit</a></li>
+                <li><a href="#/product/remove">Remove</a></li>
+            </ul>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Model
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#/model">Add</a></li>
+                <li><a href="#/model/edit">Edit</a></li>
+                <li><a href="#/model/remove">Remove</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<hr>
 <div class="col-lg-6">
     <form id="addasset" ng-submit="submit()">
         <div class="form-group">
@@ -13,8 +36,7 @@
                 <input id="inp1" type="text" class="form-control" placeholder="Search for..." ng-model="productNr"  ng-keypress="switchFocus($event)">
             </div>
         </div>
-
-        <div class="row">
+        <div class="form-group">
             <div class="col-lg-6 col-md-12">
                 <label>Name</label>
                 <select class="form-control" aria-describedby="addon-selectpname" ng-model="productName">
@@ -24,6 +46,19 @@
             <div class="col-lg-6 col-md-12">
               <label>Edit Name</label>
               <input id="inp2" type="text" class="form-control" value="{{ productName }}" ng-model="productName">
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-12">
+              <label>Image url</label>
+              <input type="text" class="form-control" value="{{ img }}" ng-model="img">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+              <label>Thumbnail url</label>
+              <input type="text" class="form-control" value="{{ thumbnail }}" ng-model="thumbnail">
             </div>
         </div>
         <hr>
@@ -59,11 +94,10 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <span class="glyphicon glyphicon-ok"></span> <strong>Error, model not created.</strong>
         </div>
-
     </form>
 </div>
 
-<div class="col-lg-4">
+<div class="col-lg-6">
     <div class="panel panel-info">
         <div class="panel-heading">Product number</div>
         <div class="panel-body">
@@ -76,18 +110,10 @@
             <p>The warranty and lifespan inputs indicates the number of years the warranty is good for and for how long it's recommended you use the asset.</p>
         </div>
     </div>
+    <div class="row">
+        <figure class="left pointer" style="padding:15px;" ng-repeat="img in searchimages.responseData.results" ng-click="setImg(img.unescapedUrl, img.tbUrl)">
+            <img lazy-img="{{img.unescapedUrl}}" height="100">
+            <figcaption>Resolution({{img.width}}x{{img.height}})</figcaption>
+        </figure>
+    </div>
 </div>
-
-<!--
-<div class="col-lg-6">
-    <p>{{ serialNr }}</p>
-    <p>{{ productNr }}</p>
-    <p>{{ productName }}</p>
-    <p>{{ status }}</p>
-    <p>{{ type }}</p>
-    <p>{{ warranty }}</p>
-    <p>{{ lifespan }}</p>
-    <p>{{ assignasset }}</p>
-    <p>{{ owner }}</p>
-    <p>{{ a.productId }}</p>
-</div>-->

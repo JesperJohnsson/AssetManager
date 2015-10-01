@@ -30,6 +30,13 @@ public class Model {
 	@JsonProperty
 	private int m_lifespan;
 	
+	
+	@JsonProperty
+	private String m_image;
+	
+	@JsonProperty
+	private String m_tbimage;
+	
 	public int getModelId() {
 		return modelId;
 	}
@@ -81,6 +88,24 @@ public class Model {
 
 	public Model setM_lifespan(int m_lifespan) {
 		this.m_lifespan = m_lifespan;
+		return this;
+	}
+
+	public String getM_image() {
+		return m_image;
+	}
+
+	public Model setM_image(String m_image) {
+		this.m_image = m_image;
+		return this;
+	}
+
+	public String getM_tbimage() {
+		return m_tbimage;
+	}
+
+	public Model setM_tbimage(String m_tbimage) {
+		this.m_tbimage = m_tbimage;
 		return this;
 	}
 	

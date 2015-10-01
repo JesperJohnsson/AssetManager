@@ -24,6 +24,12 @@ public class Mpsview {
 	@JsonProperty
 	private int m_lifespan;
 	
+	@JsonProperty
+	private String m_image;
+	
+	@JsonProperty
+	private String m_tbimage;
+	
 	@NotNull
 	@JsonProperty
 	private int p_id;
@@ -97,6 +103,24 @@ public class Mpsview {
 
 	public Mpsview setM_lifespan(int m_lifespan) {
 		this.m_lifespan = m_lifespan;
+		return this;
+	}
+
+	public String getM_image() {
+		return m_image;
+	}
+
+	public Mpsview setM_image(String m_image) {
+		this.m_image = m_image;
+		return this;
+	}
+
+	public String getM_tbimage() {
+		return m_tbimage;
+	}
+
+	public Mpsview setM_tbimage(String m_tbimage) {
+		this.m_tbimage = m_tbimage;
 		return this;
 	}
 

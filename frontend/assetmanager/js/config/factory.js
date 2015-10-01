@@ -24,7 +24,7 @@ angular.module('myApp').factory("ModelFactory", function($resource) {
 });
 
 angular.module('myApp').factory("ModelProductFactory", function($resource) {
-    return $resource("/api/modelproduct/:modelId", {}, {
+    return $resource("/api/modelproduct/:productId", {}, {
         update: { method: "PUT" }
     });
 });

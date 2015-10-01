@@ -34,6 +34,12 @@ public class Mpview {
 	@JsonProperty
 	private int m_lifespan;
 	
+	@JsonProperty
+	private String m_image;
+	
+	@JsonProperty
+	private String m_tbimage;
+	
 	
 	//Product
 	@NotNull
@@ -111,7 +117,7 @@ public class Mpview {
 		return this;
 	}
 
-	public int getM_waranty() {
+	public int getM_warranty() {
 		return m_warranty;
 	}
 
@@ -126,6 +132,24 @@ public class Mpview {
 
 	public Mpview setM_lifespan(int m_lifespan) {
 		this.m_lifespan = m_lifespan;
+		return this;
+	}
+
+	public String getM_image() {
+		return m_image;
+	}
+
+	public Mpview setM_image(String m_image) {
+		this.m_image = m_image;
+		return this;
+	}
+
+	public String getM_tbimage() {
+		return m_tbimage;
+	}
+
+	public Mpview setM_tbimage(String m_tbimage) {
+		this.m_tbimage = m_tbimage;
 		return this;
 	}
 
