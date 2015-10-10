@@ -17,6 +17,8 @@ public class ProductMapper implements ResultSetMapper<Product> {
 			.setP_productNr(r.getString("P_PRODUCTNR"))
 			.setP_warranty(r.getDate("P_WARRANTY"))
 			.setP_lifespan(r.getDate("P_LIFESPAN"))
+			.setP_purchased(r.getDate("P_PURCHASED"))
+			.setP_disposed(r.getDate("P_DISPOSED"))
 			.setComment(r.getString("COMMENT"));
 	}
 }

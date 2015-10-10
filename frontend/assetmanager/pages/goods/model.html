@@ -29,11 +29,11 @@
 </div>
 <hr>
 <div class="col-lg-6">
-    <form id="addasset" ng-submit="submit()">
+    <form ng-submit="addModel()">
         <div class="form-group">
             <div class="col-md-12">
                 <label>Product Nr.</label>
-                <input id="inp1" type="text" class="form-control" placeholder="Search for..." ng-model="productNr"  ng-keypress="switchFocus($event)">
+                <input id="inp1" type="text" class="form-control" placeholder="Search for..." ng-model="productNr"  ng-keypress="googleSearch($event)" required>
             </div>
         </div>
         <div class="form-group">
@@ -44,8 +44,8 @@
                 </select>
             </div>
             <div class="col-lg-6 col-md-12">
-              <label>Edit Name</label>
-              <input id="inp2" type="text" class="form-control" value="{{ productName }}" ng-model="productName">
+                <label>Edit Name</label>
+                <input id="inp2" type="text" class="form-control" value="{{ productName }}" ng-model="productName" required>
             </div>
         </div>
         <hr>
@@ -65,15 +65,15 @@
         <div class="row" >
             <div class="col-lg-6 col-md-12 margin-bottom">
                 <label>Warranty</label>
-                <input type="number" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="0" max="25" ng-model="warranty">
+                <input type="number" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="0" max="25" ng-model="warranty" required>
             </div>
             <div class="col-lg-6 col-md-12 margin-bottom">
                 <label>Lifespan</label>
-                <input type="number" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" max="25" ng-model="lifespan">
+                <input type="number" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" max="25" ng-model="lifespan" required>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-12">
+            <div class="col-md-11">
                 <label>Type</label>
                 <select class="form-control" ng-model="type">
                     <option ng-repeat="type in types" value="{{ type }}">{{type}}</option>
@@ -86,11 +86,11 @@
                 <input type="submit" id="submit" value="Add" class="btn btn-success" >
             </div>
         </div>
-        <div class="alert alert-success" ng-show="resultOfQueryS != null">
+        <div class="alert alert-success" ng-show="success != null">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <span class="glyphicon glyphicon-ok"></span> <strong>Model Created</strong>
         </div>
-        <div class="alert alert-danger" ng-show="resultOfQueryF != null">
+        <div class="alert alert-danger" ng-show="error != null">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <span class="glyphicon glyphicon-ok"></span> <strong>Error, model not created.</strong>
         </div>
@@ -98,18 +98,6 @@
 </div>
 
 <div class="col-lg-6">
-    <div class="panel panel-info">
-        <div class="panel-heading">Product number</div>
-        <div class="panel-body">
-            <p>The product number will automatically be searched for on google, the first 8 results will be displayed in the select input : Name</p>
-        </div>
-    </div>
-    <div class="panel panel-info">
-        <div class="panel-heading">Warranty and Lifespan</div>
-        <div class="panel-body">
-            <p>The warranty and lifespan inputs indicates the number of years the warranty is good for and for how long it's recommended you use the asset.</p>
-        </div>
-    </div>
     <div class="row">
         <figure class="left pointer" style="padding:15px;" ng-repeat="img in searchimages.responseData.results" ng-click="setImg(img.unescapedUrl, img.tbUrl)">
             <img lazy-img="{{img.unescapedUrl}}" height="100">

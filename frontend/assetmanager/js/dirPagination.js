@@ -39,7 +39,8 @@
         .directive('dirPaginationControls', ['paginationService', 'paginationTemplate', dirPaginationControlsDirective])
         .filter('itemsPerPage', ['paginationService', itemsPerPageFilter])
         .service('paginationService', paginationService)
-        .provider('paginationTemplate', paginationTemplateProvider);
+        .provider('paginationTemplate', paginationTemplateProvider)
+        .run(['$templateCache',dirPaginationControlsTemplateInstaller]);
 
     function dirPaginateDirective($compile, $parse, paginationService) {
 
@@ -52,10 +53,10 @@
         function dirPaginationCompileFn(tElement, tAttrs){
 
             var expression = tAttrs.dirPaginate;
-            // regex taken directly from https://github.com/angular/angular.js/blob/master/src/ng/directive/ngRepeat.js#L211
-            var match = expression.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+?)(?:\s+track\s+by\s+([\s\S]+?))?\s*$/);
+            // regex taken directly from https://github.com/angular/angular.js/blob/v1.4.x/src/ng/directive/ngRepeat.js#L339
+            var match = expression.match(/^\s*([\s\S]+?)\s+in\s+([\s\S]+?)(?:\s+as\s+([\s\S]+?))?(?:\s+track\s+by\s+([\s\S]+?))?\s*$/);
 
-            var filterPattern = /\|\s*itemsPerPage\s*:[^|]*/;
+            var filterPattern = /\|\s*itemsPerPage\s*:\s*(.*\(\s*\w*\)|([^\)]*?(?=as))|[^\)]*)/;
             if (match[2].match(filterPattern) === null) {
                 throw 'pagination directive: the \'itemsPerPage\' filter must be set.';
             }
@@ -153,7 +154,7 @@
          */
         function addNoCompileAttributes(tElement) {
             angular.forEach(tElement, function(el) {
-                if (el.nodeType === Node.ELEMENT_NODE) {
+                if (el.nodeType === 1) {
                     angular.element(el).attr('dir-paginate-no-compile', true);
                 }
             });
@@ -165,7 +166,7 @@
          */
         function removeTemporaryAttributes(element) {
             angular.forEach(element, function(el) {
-                if (el.nodeType === Node.ELEMENT_NODE) {
+                if (el.nodeType === 1) {
                     angular.element(el).removeAttr('dir-paginate-no-compile');
                 }
             });
@@ -208,6 +209,10 @@
         };
     }
 
+    function dirPaginationControlsTemplateInstaller($templateCache) {
+        $templateCache.put('angularUtils.directives.dirPagination.template', '<ul class="pagination" ng-if="1 < pages.length || !autoHide"><li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }"><a href="" ng-click="setCurrent(1)">&laquo;</a></li><li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }"><a href="" ng-click="setCurrent(pagination.current - 1)">&lsaquo;</a></li><li ng-repeat="pageNumber in pages track by tracker(pageNumber, $index)" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == \'...\' || ( ! autoHide && pages.length === 1 ) }"><a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a></li><li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }"><a href="" ng-click="setCurrent(pagination.current + 1)">&rsaquo;</a></li><li ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }"><a href="" ng-click="setCurrent(pagination.last)">&raquo;</a></li></ul>');
+    }
+
     function dirPaginationControlsDirective(paginationService, paginationTemplate) {
 
         var numberRegex = /^\d+$/;
@@ -220,7 +225,8 @@
             scope: {
                 maxSize: '=?',
                 onPageChange: '&?',
-                paginationId: '=?'
+                paginationId: '=?',
+                autoHide: '=?'
             },
             link: dirPaginationControlsLinkFn
         };
@@ -235,10 +241,11 @@
 
             if (!paginationService.isRegistered(paginationId) && !paginationService.isRegistered(rawId)) {
                 var idMessage = (paginationId !== DEFAULT_ID) ? ' (id: ' + paginationId + ') ' : ' ';
-                throw 'pagination directive: the pagination controls' + idMessage + 'cannot be used without the corresponding pagination directive.';
+                console.warn('Pagination directive: the pagination controls' + idMessage + 'cannot be used without the corresponding pagination directive, which was not found at link time.');
             }
 
             if (!scope.maxSize) { scope.maxSize = 9; }
+            scope.autoHide = scope.autoHide === undefined ? true : scope.autoHide;
             scope.directionLinks = angular.isDefined(attrs.directionLinks) ? scope.$parent.$eval(attrs.directionLinks) : true;
             scope.boundaryLinks = angular.isDefined(attrs.boundaryLinks) ? scope.$parent.$eval(attrs.boundaryLinks) : false;
 
@@ -255,7 +262,9 @@
             };
 
             scope.$watch(function() {
-                return (paginationService.getCollectionLength(paginationId) + 1) * paginationService.getItemsPerPage(paginationId);
+                if (paginationService.isRegistered(paginationId)) {
+                    return (paginationService.getCollectionLength(paginationId) + 1) * paginationService.getItemsPerPage(paginationId);
+                }
             }, function(length) {
                 if (0 < length) {
                     generatePagination();
@@ -263,7 +272,9 @@
             });
 
             scope.$watch(function() {
-                return (paginationService.getItemsPerPage(paginationId));
+                if (paginationService.isRegistered(paginationId)) {
+                    return (paginationService.getItemsPerPage(paginationId));
+                }
             }, function(current, previous) {
                 if (current != previous && typeof previous !== 'undefined') {
                     goToPage(scope.pagination.current);
@@ -271,7 +282,9 @@
             });
 
             scope.$watch(function() {
-                return paginationService.getCurrentPage(paginationId);
+                if (paginationService.isRegistered(paginationId)) {
+                    return paginationService.getCurrentPage(paginationId);
+                }
             }, function(currentPage, previousPage) {
                 if (currentPage != previousPage) {
                     goToPage(currentPage);
@@ -279,14 +292,26 @@
             });
 
             scope.setCurrent = function(num) {
-                if (isValidPageNumber(num)) {
+                if (paginationService.isRegistered(paginationId) && isValidPageNumber(num)) {
                     num = parseInt(num, 10);
                     paginationService.setCurrentPage(paginationId, num);
                 }
             };
 
+            /**
+             * Custom "track by" function which allows for duplicate "..." entries on long lists,
+             * yet fixes the problem of wrongly-highlighted links which happens when using
+             * "track by $index" - see https://github.com/michaelbromley/angularUtils/issues/153
+             * @param id
+             * @param index
+             * @returns {string}
+             */
+            scope.tracker = function(id, index) {
+                return id + '_' + index;
+            };
+
             function goToPage(num) {
-                if (isValidPageNumber(num)) {
+                if (paginationService.isRegistered(paginationId) && isValidPageNumber(num)) {
                     scope.pages = generatePagesArray(num, paginationService.getCollectionLength(paginationId), paginationService.getItemsPerPage(paginationId), paginationRange);
                     scope.pagination.current = num;
                     updateRangeValues();
@@ -299,15 +324,16 @@
             }
 
             function generatePagination() {
-                var page = parseInt(paginationService.getCurrentPage(paginationId)) || 1;
-
-                scope.pages = generatePagesArray(page, paginationService.getCollectionLength(paginationId), paginationService.getItemsPerPage(paginationId), paginationRange);
-                scope.pagination.current = page;
-                scope.pagination.last = scope.pages[scope.pages.length - 1];
-                if (scope.pagination.last < scope.pagination.current) {
-                    scope.setCurrent(scope.pagination.last);
-                } else {
-                    updateRangeValues();
+                if (paginationService.isRegistered(paginationId)) {
+                    var page = parseInt(paginationService.getCurrentPage(paginationId)) || 1;
+                    scope.pages = generatePagesArray(page, paginationService.getCollectionLength(paginationId), paginationService.getItemsPerPage(paginationId), paginationRange);
+                    scope.pagination.current = page;
+                    scope.pagination.last = scope.pages[scope.pages.length - 1];
+                    if (scope.pagination.last < scope.pagination.current) {
+                        scope.setCurrent(scope.pagination.last);
+                    } else {
+                        updateRangeValues();
+                    }
                 }
             }
 
@@ -316,15 +342,16 @@
              * template to display the current page range, e.g. "showing 21 - 40 of 144 results";
              */
             function updateRangeValues() {
-                var currentPage = paginationService.getCurrentPage(paginationId),
-                    itemsPerPage = paginationService.getItemsPerPage(paginationId),
-                    totalItems = paginationService.getCollectionLength(paginationId);
+                if (paginationService.isRegistered(paginationId)) {
+                    var currentPage = paginationService.getCurrentPage(paginationId),
+                        itemsPerPage = paginationService.getItemsPerPage(paginationId),
+                        totalItems = paginationService.getCollectionLength(paginationId);
 
-                scope.range.lower = (currentPage - 1) * itemsPerPage + 1;
-                scope.range.upper = Math.min(currentPage * itemsPerPage, totalItems);
-                scope.range.total = totalItems;
+                    scope.range.lower = (currentPage - 1) * itemsPerPage + 1;
+                    scope.range.upper = Math.min(currentPage * itemsPerPage, totalItems);
+                    scope.range.total = totalItems;
+                }
             }
-
             function isValidPageNumber(num) {
                 return (numberRegex.test(num) && (0 < num && num <= scope.pagination.last));
             }
@@ -416,7 +443,7 @@
             }
             var end;
             var start;
-            if (collection instanceof Array) {
+            if (angular.isObject(collection)) {
                 itemsPerPage = parseInt(itemsPerPage) || 9999999999;
                 if (paginationService.isAsyncMode(paginationId)) {
                     start = 0;
@@ -426,11 +453,41 @@
                 end = start + itemsPerPage;
                 paginationService.setItemsPerPage(paginationId, itemsPerPage);
 
-                return collection.slice(start, end);
+                if (collection instanceof Array) {
+                    // the array just needs to be sliced
+                    return collection.slice(start, end);
+                } else {
+                    // in the case of an object, we need to get an array of keys, slice that, then map back to
+                    // the original object.
+                    var slicedObject = {};
+                    angular.forEach(keys(collection).slice(start, end), function(key) {
+                        slicedObject[key] = collection[key];
+                    });
+                    return slicedObject;
+                }
             } else {
                 return collection;
             }
         };
+    }
+
+    /**
+     * Shim for the Object.keys() method which does not exist in IE < 9
+     * @param obj
+     * @returns {Array}
+     */
+    function keys(obj) {
+        if (!Object.keys) {
+            var objKeys = [];
+            for (var i in obj) {
+                if (obj.hasOwnProperty(i)) {
+                    objKeys.push(i);
+                }
+            }
+            return objKeys;
+        } else {
+            return Object.keys(obj);
+        }
     }
 
     /**
@@ -498,7 +555,7 @@
      */
     function paginationTemplateProvider() {
 
-        var templatePath = 'directives/pagination/dirPagination.tpl.html';
+        var templatePath = 'angularUtils.directives.dirPagination.template';
 
         this.setPath = function(path) {
             templatePath = path;

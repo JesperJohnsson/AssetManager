@@ -19,10 +19,16 @@ public interface ModelProductDAO {
 	List<ModelProduct> getAll();
 	
 	@SqlQuery("SELECT * FROM MODELPRODUCT WHERE FK_PRODUCTID = :productId")
-	ModelProduct findByModelId(@Bind("productId") int productId);
+	ModelProduct findByProductId(@Bind("productId") int productId);
+	
+	@SqlQuery("SELECT * FROM MODELPRODUCT WHERE FK_MODELID = :modelId")
+	List<ModelProduct> findByModelId(@Bind("modelId") int modelId);
 	
 	@SqlUpdate("DELETE FROM MODELPRODUCT WHERE FK_PRODUCTID = :productId")
-	int deleteByModelId(@Bind("productId") int productId);
+	int deleteByProductId(@Bind("productId") int productId);
+	
+	@SqlUpdate("DELETE FROM MODELPRODUCT WHERE FK_MODELID = :modelId")
+	int deleteByModelId(@Bind("modelId") int modelId);
 	
 	@SqlUpdate("UPDATE MODELPRODUCT SET FK_MODELID = :modelId WHERE FK_PRODUCTID = :productId")
 	int update(@BindBean ModelProduct modelproduct);

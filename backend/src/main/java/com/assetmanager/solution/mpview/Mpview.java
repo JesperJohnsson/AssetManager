@@ -68,19 +68,16 @@ public class Mpview {
 	
 	@NotNull
 	@JsonProperty
+	private Date p_purchased;
+	
+	@JsonProperty
+	private Date p_disposed;
+	
+	@NotNull
+	@JsonProperty
 	private String comment; 
 	
 	
-	//ModelProduct
-	@NotNull
-	@JsonProperty
-	private int fk_modelId;
-	
-	@NotNull
-	@JsonProperty
-	private int fk_productId;
-	
-
 	public int getModelId() {
 		return modelId;
 	}
@@ -207,21 +204,21 @@ public class Mpview {
 		return this;
 	}
 
-	public int getFk_modelId() {
-		return fk_modelId;
+	public Date getP_purchased() {
+		return p_purchased;
 	}
 
-	public Mpview setFk_modelId(int fk_modelId) {
-		this.fk_modelId = fk_modelId;
+	public Mpview setP_purchased(Date p_purchased) {
+		this.p_purchased = p_purchased;
 		return this;
 	}
 
-	public int getFk_productId() {
-		return fk_productId;
+	public Date getP_disposed() {
+		return p_disposed;
 	}
 
-	public Mpview setFk_productId(int fk_productId) {
-		this.fk_productId = fk_productId;
+	public Mpview setP_disposed(Date p_disposed) {
+		this.p_disposed = p_disposed;
 		return this;
 	}
 
@@ -238,8 +235,6 @@ public class Mpview {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + fk_modelId;
-		result = prime * result + fk_productId;
 		result = prime * result + m_lifespan;
 		result = prime * result
 				+ ((m_productNr == null) ? 0 : m_productNr.hashCode());
@@ -269,10 +264,6 @@ public class Mpview {
 		if (getClass() != obj.getClass())
 			return false;
 		Mpview other = (Mpview) obj;
-		if (fk_modelId != other.fk_modelId)
-			return false;
-		if (fk_productId != other.fk_productId)
-			return false;
 		if (m_lifespan != other.m_lifespan)
 			return false;
 		if (m_productNr == null) {

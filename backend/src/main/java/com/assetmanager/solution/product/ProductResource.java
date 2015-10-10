@@ -61,6 +61,12 @@ public class ProductResource {
 		return product;
 	}
 	
+	@PUT
+	@Path("/dispose/{productId}")
+	public void dispose(@PathParam("productId") int productId) {
+		productDAO.dipose(productId);
+	}
+	
 	@DELETE
 	@Path("/{productId}")
 	public void delete(@PathParam("productId") int productId) {

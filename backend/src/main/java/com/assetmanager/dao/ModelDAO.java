@@ -14,6 +14,18 @@ import com.assetmanager.solution.model.mapper.ModelMapper;
 @RegisterMapper(ModelMapper.class)
 public interface ModelDAO {
 	
+	//Statistics
+	@SqlQuery("SELECT COUNT(MODELID) FROM MODEL")
+	int getAmountModel();
+	
+	@SqlQuery("SELECT AVG(M_WARRANTY) FROM MODEL")
+	int getAverageWarranty();
+	
+	@SqlQuery("SELECT AVG(M_LIFESPAN) FROM MODEL")
+	int getAverageLifespan();
+	
+	//------------------------------------------------
+	
 	@SqlQuery("SELECT MODELID FROM MODEL ORDER BY MODELID DESC LIMIT 1")
 	int getCount();
 	

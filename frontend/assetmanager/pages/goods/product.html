@@ -30,7 +30,7 @@
 <hr>
 <div class="row">
     <div class="col-lg-6">
-        <form id="addasset" ng-submit="addproduct(staff.selected.staffId)">
+        <form name="addProductForm" ng-submit="addproduct(staff.selected.staffId)">
             <div class="row margin-bottom">
                 <div class="col-md-12">
                     <label>Assign the asset to a staff, or store it in storage.</label>
@@ -60,15 +60,30 @@
             </div>
             <hr>
             <div class="form-group">
-                <div class="col-md-12">
-                    <label>Serial Nr.</label>
-                    <input id="inp1" type="text" class="form-control" ng-model="serialNr" ng-keypress="switchFocus($event)">
+                <div class="col-md-11">
+                    <label>Purchase Date</label>
+                    <input name="purchasedate" type="date" class="form-control" value="{{purchasedate}}" ng-model="purchasedate" ng-keypress="switchFocus($event)" required>
+                </div>
+                <div class="col-md-1 margin-top">
+                    <span ng-class="{'glyphicon glyphicon-ok' : !addProductForm.purchasedate.$error.required}" ></span>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-12">
+                <div class="col-md-11">
+                    <label>Serial Nr.</label>
+                    <input name="serialNr" id="inp1" type="text" class="form-control" ng-model="serialNr" ng-keypress="switchFocus($event)" required>
+                </div>
+                <div class="col-md-1 margin-top">
+                    <span ng-class="{'glyphicon glyphicon-ok' : !addProductForm.serialNr.$error.required}" ></span>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error' : error}">
+                <div class="col-md-11">
                     <label>Product Nr.</label>
-                    <input id="inp2" type="text" class="form-control" ng-model="m_productNr"  ng-keypress="switchFocus($event)">
+                    <input name="productNr" id="inp2" type="text" class="form-control" ng-model="m_productNr"  ng-keypress="switchFocus($event)" required>
+                </div>
+                <div class="col-md-1 margin-top">
+                    <span ng-class="{'glyphicon glyphicon-ok' : !addProductForm.productNr.$error.required}" ></span>
                 </div>
             </div>
             <hr>
@@ -78,17 +93,13 @@
                 </div>
             </div>
         </form>
-        <div class="alert alert-success" ng-show="resultOfQueryS != null">
+        <div class="alert alert-success" ng-show="success != null">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <span class="glyphicon glyphicon-ok"></span> <strong>Product Created</strong>
+            <span class="glyphicon glyphicon-ok"></span> <strong>Product Created</strong><strong ng-show="assigned != null"> & Assigned To Staff.</strong>
         </div>
-        <div class="alert alert-danger" ng-show="resultOfQueryF != null">
+        <div class="alert alert-danger" ng-show="error == true">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <span class="glyphicon glyphicon-ok"></span> <strong>Error, product not created.</strong>
-        </div>
-        <div class="alert alert-danger" ng-show="modelNotFound != null">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <span class="glyphicon glyphicon-ok"></span> <strong>Model not found, do you want to <a href="#/model">create the model</a>?</strong>
+            <span class="glyphicon glyphicon-exclamation-sign"></span> <strong>Model not found, do you want to <a href="#/model">create the model</a>?</strong>
         </div>
     </div>
     <div class="col-lg-6" ng-show="model.selected != null">

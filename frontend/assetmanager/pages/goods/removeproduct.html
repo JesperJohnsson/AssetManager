@@ -28,3 +28,55 @@
     </div>
 </div>
 <hr>
+<div class="row">
+    <div class="col-lg-6">
+        <form ng-submit="removeproduct()">
+            <div class="row margin-bottom">
+                <div class="col-md-12">
+                    <label>Existing Products</label>
+                    <div class="input-group">
+                        <ui-select ng-model="product.selected" class="min-width">
+                            <ui-select-match placeholder="Select a product in the list or search ">{{$select.selected.name | limitTo:35 }}</ui-select-match>
+                            <ui-select-choices repeat="product in products | propsFilter: {name: $select.search, serialNr: $select.search}" ng-click="setProductNr(product.selected.p_productNr)">
+                                <div class="left"><img lazy-img="{{product.m_tbimage}}" width="40" height="40"></div>
+                                <div>
+                                    <div ng-bind-html="product.name | limitTo:20 | highlight: $select.search"></div>
+                                    <small>
+                                        {{product.type}}, serial nr: {{product.serialNr}}
+                                    </small>
+                                </div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-success" ng-click="confirm = true;">Remove</button>
+                    <input type="submit" id="submit" value="Confirm" class="btn btn-danger" ng-show="confirm != null">
+                </div>
+            </div>
+        </form>
+        <!--Success and error messages-->
+        <div class="alert alert-success" ng-show="success != null">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-ok"></span> <strong>Product Removed</strong>
+        </div>
+        <div class="alert alert-warning" ng-show="product.selected.status == 'Owned'">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-exclamation-sign"></span> <strong>This product is currently owned.</strong>
+        </div>
+        <div class="alert alert-danger" ng-show="notconfirmed != null">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-exclamation-sign"></span> <strong>Somehow you've managed to submit this form without confirming?! CONFIRM YOU FOOL.</strong>
+        </div>
+        <div class="alert alert-danger" ng-show="noproductSelected != null">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-exclamation-sign"></span> <strong>No product was selected.</strong>
+        </div>
+    </div>
+    <div class="col-lg-6" ng-show="model.selected != null">
+        <img lazy-img="{{model.selected.m_image}}" height="500">
+    </div>
+</div>

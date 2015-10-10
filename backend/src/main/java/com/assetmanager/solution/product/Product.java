@@ -34,6 +34,13 @@ public class Product {
 	
 	@NotNull
 	@JsonProperty
+	private Date p_purchased;
+	
+	@JsonProperty
+	private Date p_disposed;
+	
+	@NotNull
+	@JsonProperty
 	private String comment;
 
 	public int getProductId() {
@@ -87,6 +94,24 @@ public class Product {
 
 	public Product setP_lifespan(Date p_lifespan) {
 		this.p_lifespan = p_lifespan;
+		return this;
+	}
+
+	public Date getP_purchased() {
+		return p_purchased;
+	}
+
+	public Product setP_purchased(Date p_purchased) {
+		this.p_purchased = p_purchased;
+		return this;
+	}
+
+	public Date getP_disposed() {
+		return p_disposed;
+	}
+
+	public Product setP_disposed(Date p_disposed) {
+		this.p_disposed = p_disposed;
 		return this;
 	}
 

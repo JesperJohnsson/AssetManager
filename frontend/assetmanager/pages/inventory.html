@@ -5,40 +5,119 @@
                 <input id="inp1" type="text" placeholder="Search" class="form-control" aria-describedby="addon-search" ng-model="query">
             </div>
         </div>
+        <div class="col-md-6">
+            <button class="pull-right btn btn-danger" ng-click="show = false">Disposed</button>
+            <button class="pull-right btn btn-default" style="margin-right:30px;" ng-click="show = true">Inventory</button>
+        </div>
     </div>
-    <div class="table-responsive">
+
+
+
+    <!-- Inventory table, includes the owned inventory aswell-->
+    <div class="table-responsive" ng-if="show === true">
         <table class="table table-striped table-bordered table-hover">
             <tr>
-                <th class="noselect pointer" style="width:30%;" ng-click="sortField = 'name'; reverse = !reverse">Model Name
+                <th class="noselect pointer" ng-click="sortField = 'name'; reverse = !reverse">Model Name
                     <small><span class="glyphicon sort-icon" ng-show="sortField == 'name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
                 </th>
-                <th class="noselect pointer" style="width:20%;"  ng-click="sortField = 'serialNr'; reverse = !reverse">Serial Number
+                <th class="noselect pointer"  ng-click="sortField = 'serialNr'; reverse = !reverse">Serial Number
                     <small><span class="glyphicon sort-icon" ng-show="sortField == 'serialNr'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
                 </th>
-                <th class="noselect pointer" style="width:12.5%;"  ng-click="sortField = 'type'; reverse = !reverse">Type
+                <th class="noselect pointer"  ng-click="sortField = 'type'; reverse = !reverse">Type
                     <small><span class="glyphicon sort-icon" ng-show="sortField == 'type'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
                 </th>
-                <th class="noselect pointer" style="width:12.5%;"  ng-click="sortField = 'status'; reverse = !reverse">Status
+                <th class="noselect pointer" ng-click="sortField = 'status'; reverse = !reverse">Status
                     <small><span class="glyphicon sort-icon" ng-show="sortField == 'status'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
                 </th>
-                <th class="noselect pointer" style="width:12.5%;"  ng-click="sortField = 'p_warranty'; reverse = !reverse">Warranty
+                <th class="noselect pointer" ng-click="sortField = 'owner'; reverse = !reverse">Owner
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'owner'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th class="noselect pointer"  ng-click="sortField = 'p_purchased'; reverse = !reverse">Purchased
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'p_purchased'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th class="noselect pointer"  ng-click="sortField = 'p_warranty'; reverse = !reverse">Warranty
                     <small><span class="glyphicon sort-icon" ng-show="sortField == 'p_warranty'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
                 </th>
-                <th class="noselect pointer" style="width:12.5%;"  ng-click="sortField = 'p_lifespan'; reverse = !reverse">Lifespan
+                <th class="noselect pointer"  ng-click="sortField = 'p_lifespan'; reverse = !reverse">Lifespan
                     <small><span class="glyphicon sort-icon" ng-show="sortField == 'p_lifespan'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
                 </th>
+                <th class="noselect pointer"  ng-click="sortField = 'comment'; reverse = !reverse">Comment
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'comment'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th></th>
             </tr>
-            <tr dir-paginate="item in inventory | filter:query | orderBy:sortField:reverse | itemsPerPage:10">
-                <td>{{ item.name }}</td>
-                <td>{{ item.serialNr }}</td>
-                <td>{{ item.type }}</td>
-                <td>{{ item.status }}</td>
-                <td ng-class="{'red':calculateDate(item.p_warranty)}">{{ item.p_warranty }}</td>
-                <td ng-class="{'red':calculateDate(item.p_lifespan)}">{{ item.p_lifespan }}</td>
+            <tr dir-paginate="item in inventory | filter:query | orderBy:sortField:reverse | itemsPerPage:25" pagination-id="inv">
+                <td style="white-space:nowrap; width: 1%;">{{ item.name }}</td>
+                <td style="white-space:nowrap; width: 1%;">{{ item.serialNr }}</td>
+                <td style="white-space:nowrap; width: 1%;">{{ item.type }}</td>
+                <td style="white-space:nowrap; width: 1%;">{{ item.status }}</td>
+                <td style="white-space:nowrap; width: 1%;"><a href="#/stafflist/{{item.staffId}}">{{ item.staff }}</a></td>
+                <td style="white-space:nowrap; width: 1%;">{{ item.p_purchased }}</td>
+                <td style="white-space:nowrap; width: 1%;" ng-class="{'red':calculateDate(item.p_warranty)}">{{ item.p_warranty }}</td>
+                <td style="white-space:nowrap; width: 1%;" ng-class="{'red':calculateDate(item.p_lifespan)}">{{ item.p_lifespan }}</td>
+                <td>{{ item.comment}}</td>
+                <td style="white-space: nowrap; width: 1%;">
+                    <button style="margin-right:5px;" ng-click="setProduct(item.productId)" data-toggle="modal" data-target="#commentModal"><span class="glyphicon glyphicon-comment"></span></button><button style="margin-right:5px;" class="btn-danger"  ng-click="confirm = !confirm;" ><span class="glyphicon glyphicon-trash"></span></button><button ng-show="confirm != false" ng-click="dispose(item.productId);"  class="btn-danger" >CONFIRM</button>
+                </td>
             </tr>
         </table>
     </div>
+
+    <!-- Disposed inventory -->
+    <div class="table-responsive" ng-if="show === false">
+        <table class="table table-striped table-bordered table-hover">
+            <tr>
+                <th class="noselect pointer" ng-click="sortField = 'name'; reverse = !reverse">Model Name
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th class="noselect pointer"  ng-click="sortField = 'serialNr'; reverse = !reverse">Serial Number
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'serialNr'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th class="noselect pointer"  ng-click="sortField = 'type'; reverse = !reverse">Type
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'type'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th class="noselect pointer"  ng-click="sortField = 'p_purchased'; reverse = !reverse">Purchased
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'p_purchased'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+            </tr>
+            <tr dir-paginate="item in disposed | filter:query | orderBy:sortField:reverse | itemsPerPage:25" pagination-id="dis">
+                <td style="white-space:nowrap; width: 1%;">{{ item.name }}</td>
+                <td style="white-space:nowrap; width: 1%;">{{ item.serialNr }}</td>
+                <td style="white-space:nowrap; width: 1%;">{{ item.type }}</td>
+                <td style="white-space:nowrap; width: 1%;">{{ item.p_purchased }}</td>
+            </tr>
+        </table>
+    </div>
+
+
 </div>
-<div class="row">
-    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+
+
+<!-- Pagination for the different tables -->
+<div class="row text-center"  ng-if="show === true">
+    <dir-pagination-controls direction-links="true" template-url="template/dirPagination.tpl.html" pagination-id="inv"></dir-pagination-controls>
+</div>
+<div class="row text-center"  ng-if="show === false">
+    <dir-pagination-controls direction-links="true" template-url="template/dirPagination.tpl.html" pagination-id="dis"></dir-pagination-controls>
+</div>
+
+<!-- Modal for adding/editing a comment-->
+<div class="modal fade" id="commentModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-comment"></span> Comment</h4>
+            </div>
+            <div class="modal-body">
+                <form name="commentForm" role="form" ng-submit="comment()">
+                    <div class="form-group">
+                        <input name="staffname" type="text" class="form-control" placeholder="Add a comment to a product" ng-model="productComment.comment">
+                    </div>
+                    <button type="submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-comment"></span> Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

@@ -3,7 +3,6 @@ package com.assetmanager.solution.mpsview;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Mpsview {
@@ -57,6 +56,13 @@ public class Mpsview {
 	@NotNull
 	@JsonProperty
 	private Date p_lifespan;
+	
+	@NotNull
+	@JsonProperty
+	private Date p_purchased;
+	
+	@JsonProperty
+	private Date p_disposed;
 	
 	@NotNull
 	@JsonProperty
@@ -184,6 +190,24 @@ public class Mpsview {
 
 	public Mpsview setP_lifespan(Date p_lifespan) {
 		this.p_lifespan = p_lifespan;
+		return this;
+	}
+	
+	public Date getP_purchased() {
+		return p_purchased;
+	}
+
+	public Mpsview setP_purchased(Date p_purchased) {
+		this.p_purchased = p_purchased;
+		return this;
+	}
+
+	public Date getP_disposed() {
+		return p_disposed;
+	}
+
+	public Mpsview setP_disposed(Date p_disposed) {
+		this.p_disposed = p_disposed;
 		return this;
 	}
 

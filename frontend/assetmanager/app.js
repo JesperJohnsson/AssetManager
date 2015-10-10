@@ -1,6 +1,6 @@
 
 //Declare module
-angular.module('myApp', ['ngRoute', 'ngResource','ngSanitize', 'ui.select', 'angularUtils.directives.dirPagination', 'angularLazyImg']);
+angular.module('myApp', ['ngRoute', 'ngResource','ngSanitize', 'ui.select', 'angularUtils.directives.dirPagination', 'angularLazyImg', 'ngAnimate', 'chart.js']);
 
 angular.module('myApp').config(function(paginationTemplateProvider) {
     paginationTemplateProvider.setPath('template/dirPagination.tpl.html');

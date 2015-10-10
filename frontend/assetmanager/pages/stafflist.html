@@ -1,0 +1,74 @@
+<div class="panel panel-default" style="margin-top:50px;">
+    <div class="panel-heading no-overflow">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input id="inp1" type="text" placeholder="Search" class="form-control" aria-describedby="addon-search" ng-model="query">
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <tr>
+                <th class="noselect pointer" ng-click="sortField = 'name'; reverse = !reverse">Staff Name
+                    <small><span class="glyphicon sort-icon" ng-show="sortField == 'name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></small>
+                </th>
+                <th><button data-toggle="modal" data-target="#addStaffModal"><span class="glyphicon glyphicon-plus"></span></button></th>
+            </tr>
+            <tr dir-paginate="staff in staffs | filter:query | orderBy:sortField:reverse | itemsPerPage:25">
+                <td ng-click="staffpage(staff.staffId)" class="pointer">{{ staff.name }}</td>
+                <td style="white-space: nowrap; width: 1%;">
+                    <button style="margin-right:5px;" ng-click="setSelectedStaff(staff.staffId)" data-toggle="modal" data-target="#editStaffModal"><span class="glyphicon glyphicon-pencil"></span></button><button style="margin-right:5px;" class="btn-danger"  ng-click="confirm = !confirm;" ><span class="glyphicon glyphicon-trash"></span></button><button ng-show="confirm != false" ng-click="removeStaff(staff.staffId);"  class="btn-danger" >CONFIRM</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<!-- Modal For Create Staff -->
+<div class="modal fade" id="addStaffModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-lock"></span> Add Staff</h4>
+            </div>
+            <div class="modal-body">
+                <form name="addStaffForm" role="form" ng-submit="addStaff()">
+                    <div class="form-group" ng-class="{'has-error' : addStaffForm.staffname.$error.required}">
+                        <label for="staffname"><span class="glyphicon glyphicon-user"></span> Staff</label>
+                        <input name="staffname" type="text" class="form-control" placeholder="Enter Staff Name" ng-model="name" required>
+                    </div>
+                    <button type="submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-pencil"></span> Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal For Edit Staff -->
+<div class="modal fade" id="editStaffModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-lock"></span> Edit Staff Name</h4>
+            </div>
+            <div class="modal-body">
+                <form name="editStaffForm" role="form" ng-submit="editStaff()">
+                    <div class="form-group" ng-class="{'has-error' : editStaffForm.staffname.$error.required}">
+                        <label for="staffname"><span class="glyphicon glyphicon-user"></span> Staff</label>
+                        <input name="staffname" type="text" class="form-control" placeholder="Edit Staff Name" ng-model="selectedStaff.name" required>
+                    </div>
+                    <button type="submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row text-center">
+    <dir-pagination-controls direction-links="true" template-url="template/dirPagination.tpl.html"></dir-pagination-controls>
+</div>

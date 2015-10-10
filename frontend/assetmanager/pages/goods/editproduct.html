@@ -30,7 +30,7 @@
 <hr>
 <div class="row">
     <div class="col-lg-6">
-        <form id="addasset" ng-submit="editproduct()">
+        <form name="editProductForm" ng-submit="editproduct()">
             <div class="row margin-bottom">
                 <div class="col-md-12">
                     <label>Existing Products</label>
@@ -52,7 +52,7 @@
             </div>
             <div class="row margin-bottom">
                 <div class="col-md-12">
-                    <label>Models</label>
+                    <label>Change Model</label>
                     <div class="input-group">
                     <ui-select ng-model="model.selected" class="min-width">
                         <ui-select-match placeholder="Select a model in the list or search">{{$select.selected.name | limitTo:35}}</ui-select-match>
@@ -66,15 +66,30 @@
             </div>
             <hr>
             <div class="form-group">
-                <div class="col-md-12">
-                    <label>Serial Nr.</label>
-                    <input id="inp1" type="text" class="form-control" ng-model="product.selected.serialNr" ng-keypress="switchFocus($event)">
+                <div class="col-md-11">
+                    <label>Purchase Date</label>
+                    <input name="purchasedate" type="date" class="form-control" value="{{product.selected.p_purchased || purchasedate}}" ng-model="product.selected.p_purchased" ng-keypress="switchFocus($event)" required>
+                </div>
+                <div class="col-md-1 margin-top">
+                    <span ng-class="{'glyphicon glyphicon-ok' : !addProductForm.purchasedate.$error.required}" ></span>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-12">
+                <div class="col-md-11">
+                    <label>Serial Nr.</label>
+                    <input name="serialNr" id="inp1" type="text" class="form-control" ng-model="product.selected.serialNr" ng-keypress="switchFocus($event)" required>
+                </div>
+                <div style="margin-top:30px;" class="col-md-1">
+                    <span ng-class="{'glyphicon glyphicon-ok' : !editProductForm.serialNr.$error.required}" ></span>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error' : error}">
+                <div class="col-md-11">
                     <label>Product Nr.</label>
-                    <input id="inp2" type="text" class="form-control" ng-model="productNr"  >
+                    <input name="productNr" id="inp2" type="text" class="form-control" ng-model="productNr"  ng-keypress="switchFocus($event)" required>
+                </div>
+                <div style="margin-top:30px;" class="col-md-1">
+                    <span ng-class="{'glyphicon glyphicon-ok' : !editProductForm.productNr.$error.required}" ></span>
                 </div>
             </div>
             <hr>
@@ -84,17 +99,22 @@
                 </div>
             </div>
         </form>
-        <div class="alert alert-success" ng-show="resultOfQueryS != null">
+        <!--Success and error messages-->
+        <div class="alert alert-success" ng-show="success != null">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <span class="glyphicon glyphicon-ok"></span> <strong>Product Created</strong>
+            <span class="glyphicon glyphicon-ok"></span> <strong>Product Edited</strong>
         </div>
         <div class="alert alert-danger" ng-show="resultOfQueryF != null">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <span class="glyphicon glyphicon-ok"></span> <strong>Error, product not created.</strong>
+            <span class="glyphicon glyphicon-exclamation-sign"></span> <strong>Error, product not edited.</strong>
         </div>
         <div class="alert alert-danger" ng-show="modelNotFound != null">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <span class="glyphicon glyphicon-ok"></span> <strong>Model not found, do you want to <a href="#/model">create the model</a>?</strong>
+            <span class="glyphicon glyphicon-exclamation-sign"></span> <strong>Model not found, do you want to <a href="#/model">create the model</a>?</strong>
+        </div>
+        <div class="alert alert-danger" ng-show="noproductSelected != null">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-exclamation-sign"></span> <strong>No product was selected.</strong>
         </div>
     </div>
     <div class="col-lg-6" ng-show="model.selected != null">

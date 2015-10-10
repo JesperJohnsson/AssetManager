@@ -15,7 +15,7 @@ angular.module('myApp').config(function ($routeProvider) {
 
     .when('/product/remove', {
         templateUrl: 'pages/goods/removeproduct.html',
-        controller: 'productController'
+        controller: 'removeproductController'
     })
 
     .when('/model', {
@@ -25,12 +25,12 @@ angular.module('myApp').config(function ($routeProvider) {
 
     .when('/model/edit', {
         templateUrl: 'pages/goods/editmodel.html',
-        controller: 'modelController'
+        controller: 'editmodelController'
     })
 
     .when('/model/remove', {
         templateUrl: 'pages/goods/removemodel.html',
-        controller: 'modelController'
+        controller: 'removemodelController'
     })
 
     .when('/inventory', {
@@ -38,9 +38,29 @@ angular.module('myApp').config(function ($routeProvider) {
         controller: 'inventoryController'
     })
 
-    .when('/substitution', {
-        templateUrl: 'pages/substitute.html',
-        controller: 'substituteController'
+    .when('/management', {
+        templateUrl: 'pages/management.html',
+        controller: 'managementController'
+    })
+
+    .when('/budget', {
+        templateUrl: 'pages/budget.html',
+        controller: 'budgetController'
+    })
+
+    .when('/stafflist', {
+        templateUrl: 'pages/stafflist.html',
+        controller: 'stafflistController'
+    })
+
+    .when('/stafflist/:staffId', {
+        templateUrl: 'pages/stafflist/staffpage.html',
+        controller: 'staffpageController'
+    })
+
+    .when('/statistics', {
+        templateUrl: 'pages/statistics.html',
+        controller: 'statisticsController'
     })
 
     .otherwise({redirectTo : '/product'});

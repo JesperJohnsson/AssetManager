@@ -1,78 +1,81 @@
 /*rgb(255, 163, 71); Main orange color*/
-/*OBS! Gör så allt inte har någon border radius!*/
-/*------------------*/
-* {
- border-radius: 0 !important;
-}
-/*------------------*/
 
 /*Single function classes*/
+
+.alert {
+  -moz-transition:all linear 1s;
+  -o-transition:all linear 1s;
+  transition:all linear 1s;
+  display:block!important;
+  -webkit-transition:all linear 1s;
+  opacity:1;
+}
+
+.alert.ng-hide {
+  transition:1s linear all;
+  opacity:0;
+}
+
 .min-width {
-    min-width: 300px;
+  min-width: 300px;
 }
 
 .margin-bottom {
-    margin-bottom:20px;
+  margin-bottom:20px;
+}
+
+.margin-top {
+  margin-top: 30px;
 }
 
 .left {
-    float:left;
+  float:left;
 }
 
 .right {
-    float:right;
+  float:right;
 }
 
 .pointer {
-    cursor:pointer;
+  cursor:pointer;
 }
 
 .no-background {
-    background:none;
+  background:none;
 }
 
 .no-overflow {
-    overflow: auto;
+  overflow: auto;
 }
 
 .red {
-    color:red;
+  color:red;
 }
 .orangecolor {
-    color: rgba(255, 163, 71, 0.75);
+  color: rgba(255, 163, 71, 0.75);
 }
 
 .orangecolor:hover {
-    color: rgb(255, 163, 71);
-    background:none;
+  color: rgb(255, 163, 71);
+  background:none;
 }
 
 .noselect {
- -webkit-touch-callout: none;
- -webkit-user-select: none;
- -khtml-user-select: none;
- -moz-user-select: none;
- -ms-user-select: none;
- user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .col-centered{
- float: none;
- margin: 0 auto;
-}
-
-.btn-success {
- background-color: rgba(255, 163, 71, 0.75) !important;
- border-color: rgba(255, 163, 71, 0.75) !important;
-}
-
-.btn-success:hover {
- background-color: rgb(255, 163, 71) !important;
- border-color: rgb(255, 163, 71) !important;
+  float: none;
+  margin: 0 auto;
 }
 
 .white {
- background-color: #FFF !important;
+  background-color: #FFF !important;
 }
 
 :focus {
@@ -89,8 +92,8 @@
 }
 
 .pagination>.active>a {
- background-color: rgba(255, 163, 71, 0.75) !important;
- border-color: rgba(255, 163, 71, 0.75) !important;
+  background-color: rgba(255, 163, 71, 0.75) !important;
+  border-color: rgba(255, 163, 71, 0.75) !important;
 }
 
 .select2 > .select2-choice.ui-select-match {
@@ -102,12 +105,9 @@
   top: 36px;
 }
 
-body {overflow-y:scroll;}
-
-textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
- border-color: rgba(229, 103, 23, 0.8);
- box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(229, 103, 23, 0.6);
- outline: 0 none;
+body {
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 /*SIDEBAR*/
@@ -115,7 +115,7 @@ textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
   position: fixed;
   width: 300px;
   height: 100%;
-  background-color: #f8f8f8;
+  background-color: #f8f8f8 !important;
   border-right: 1px solid #e7e7e7;
 }
 .side-menu .navbar {
@@ -316,7 +316,7 @@ textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
     position: fixed;
     left: -300px;
     width: 300px;
-    top: 43px;
+    top: 65px;
     height: 100%;
     border-right: 1px solid #e7e7e7;
     background-color: #f8f8f8;
@@ -326,6 +326,7 @@ textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
     animation: slideout 300ms forwards;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
+    margin: 0 -15px !important;
   }
   /* Uncomment for scrollable menu -> see top comment */
   /*.absolute-wrapper{
@@ -407,9 +408,10 @@ textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
   }
   /* Hamburger */
   .navbar-toggle {
+    background:none;
     border: 0;
     float: left;
-    padding: 18px;
+    padding: 25px;
     margin: 0;
     border-radius: 0;
     background-color: #f3f3f3;

@@ -20,14 +20,14 @@ public class MpviewMapper implements ResultSetMapper<Mpview> {
 			.setM_lifespan(r.getInt("M_LIFESPAN"))
 			.setM_image(r.getString("M_IMAGE"))
 			.setM_tbimage(r.getString("M_TBIMAGE"))
-			.setFk_modelId(r.getInt("FK_MODELID"))
-			.setFk_productId(r.getInt("FK_PRODUCTID"))
 			.setProductId(r.getInt("PRODUCTID"))
 			.setSerialNr(r.getString("SERIALNR"))
 			.setStatus(r.getString("STATUS"))
 			.setP_productNr(r.getString("P_PRODUCTNR"))
 			.setP_warranty(r.getDate("P_WARRANTY"))
 			.setP_lifespan(r.getDate("P_LIFESPAN"))
+			.setP_purchased(r.getDate("P_PURCHASED"))
+			.setP_disposed(r.getDate("P_DISPOSED"))
 			.setComment(r.getString("COMMENT"));
 	}
 }

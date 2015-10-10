@@ -1,0 +1,44 @@
+<div class="page-header">
+    <h1>Statistics</h1>
+</div>
+<div class="row" ng-controller="modelStatsController">
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Model <small>: {{total}}</small></h2>
+        </div>
+        <div class="col-lg-3 col-lg-offset-3">
+            <select style="margin-top:30px;" class="form-control" ng-model="type" ng-change="changeData(nrOfTypesData)" ng-options="type as type for type in types"></select>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">
+            <canvas id="base" class="chart-base" chart-type="type"
+              chart-data="data" chart-labels="labels" chart-legend="true">
+            </canvas>
+        </div>
+        <div class="col-lg-6">
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row" ng-controller="productStatsController">
+    <div class="row">
+        <div class="col-lg-6">
+            <h2>Product <small>: {{total}}</small></h2>
+        </div>
+        <div class="col-lg-3 col-lg-offset-3">
+            <select style="margin-top:30px;" class="form-control" ng-model="type" ng-change="changeData(nrOfTypesData)" ng-options="type as type for type in types"></select>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">
+            <canvas id="base" class="chart-base" chart-type="type"
+              chart-data="data" chart-labels="labels" chart-legend="true">
+            </canvas>
+        </div>
+        <div class="col-lg-6">
+        </div>
+    </div>
+</div>

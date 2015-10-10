@@ -21,7 +21,6 @@ import com.assetmanager.solution.model.Model;
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 public class ModelResource {
-	
 	ModelDAO modelDAO;
 	AtomicInteger modelCounter;
 	
@@ -39,6 +38,24 @@ public class ModelResource {
 	@Path("/lastinserted")
 	public Model getLastInsertedRow() {
 		return modelDAO.findByModelId(modelDAO.getCount());
+	}
+	
+	@GET
+	@Path("/amount")
+	public int getAmountModel() {
+		return modelDAO.getAmountModel();
+	}
+	
+	@GET
+	@Path("/warranty_a")
+	public int getAverageWarranty() {
+		return modelDAO.getAverageWarranty();
+	}
+	
+	@GET
+	@Path("/lifespan_a")
+	public int getAverageLifespan() {
+		return modelDAO.getAverageLifespan();
 	}
 	
 	@GET

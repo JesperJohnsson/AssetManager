@@ -1,0 +1,15 @@
+<div class="page-header">
+    <h1>{{staff.name}}</h1>
+</div>
+<div ng-repeat="type in sortedPersonalStorage.type">
+    <h2 ng-if="type.data.length != 0">{{type.name}}<span ng-if="type.data.length > 1">s</span></h2>
+    <div class="media" ng-repeat="item in type.data">
+        <div class="media-left">
+            <img class="media-object" lazy-img="{{item.m_tbimage}}" width="64" height="64">
+        </div>
+        <div class="media-body" style="padding-top:10px;">
+            <h4 class="media-heading">{{item.p_name}}</h4>
+            <p><strong>{{item.p_type}}</strong>, <strong>Model:</strong> {{item.p_name}}, <strong>Serial Nr:</strong> {{item.p_serialNr}}, <strong>Warranty:</strong> {{item.p_warranty}}, <strong>Lifespan:</strong> {{item.p_lifespan}}</p>
+        </div>
+    </div>
+</div>

@@ -28,3 +28,99 @@
     </div>
 </div>
 <hr>
+<div class="col-lg-6">
+    <form ng-submit="editModel()">
+        <div class="row margin-bottom">
+            <div class="col-md-12">
+                <label>Existing Models</label>
+                <div class="input-group">
+                <ui-select ng-model="model.selected" class="min-width">
+                    <ui-select-match placeholder="Select a model in the list or search ">{{$select.selected.name | limitTo:35 }}</ui-select-match>
+                    <ui-select-choices repeat="model in models | propsFilter: {name: $select.search, serialNr: $select.search}" ng-click="setModel()">
+                        <div class="left"><img lazy-img="{{model.m_tbimage}}" width="40" height="40"></div>
+                        <div>
+                            <div ng-bind-html="model.name | limitTo:20 | highlight: $select.search"></div>
+                            <small>
+                                {{model.type}}, product nr: {{model.m_productNr}}
+                            </small>
+                        </div>
+                    </ui-select-choices>
+                </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label>Product Nr.</label>
+                <input id="inp1" type="text" class="form-control" placeholder="Search for..." ng-model="productNr"  ng-keypress="googleSearch($event)">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-6 col-md-12">
+                <label>Name</label>
+                <select class="form-control" aria-describedby="addon-selectpname" ng-model="productName">
+                    <option ng-repeat="result in searchdata.responseData.results">{{result.titleNoFormatting}}</option>
+                </select>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <label>Edit Name</label>
+              <input id="inp2" type="text" class="form-control" value="{{ productName }}" ng-model="productName">
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-12">
+              <label>Image url</label>
+              <input type="text" class="form-control" value="{{ img }}" ng-model="img">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+              <label>Thumbnail url</label>
+              <input type="text" class="form-control" value="{{ thumbnail }}" ng-model="thumbnail">
+            </div>
+        </div>
+        <hr>
+        <div class="row" >
+            <div class="col-lg-6 col-md-12 margin-bottom">
+                <label>Warranty</label>
+                <input type="number" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="0" max="25" ng-model="warranty">
+            </div>
+            <div class="col-lg-6 col-md-12 margin-bottom">
+                <label>Lifespan</label>
+                <input type="number" class="form-control" onkeypress='return event.charCode >= 48 && event.charCode <= 57' min="1" max="25" ng-model="lifespan">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label>Type</label>
+                <select class="form-control" ng-model="type">
+                    <option ng-repeat="type in types" value="{{ type }}">{{type}}</option>
+                </select>
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="submit" id="submit" value="Edit" class="btn btn-success" >
+            </div>
+        </div>
+        <div class="alert alert-success" ng-show="success != null">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-ok"></span> <strong>Model Edited</strong>
+        </div>
+        <div class="alert alert-danger" ng-show="error != null">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <span class="glyphicon glyphicon-ok"></span> <strong>Error, model not created.</strong>
+        </div>
+    </form>
+</div>
+
+<div class="col-lg-6">
+    <div class="row">
+        <figure class="left pointer" style="padding:15px;" ng-repeat="img in searchimages.responseData.results" ng-click="setImg(img.unescapedUrl, img.tbUrl)">
+            <img lazy-img="{{img.unescapedUrl}}" height="100">
+            <figcaption>Resolution({{img.width}}x{{img.height}})</figcaption>
+        </figure>
+    </div>
+</div>

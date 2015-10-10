@@ -35,7 +35,7 @@ public class ModelProductResource {
 	@GET
 	@Path("/{productId}")
 	public ModelProduct get(@PathParam("productId") int productId) {
-		return modelproductDAO.findByModelId(productId);
+		return modelproductDAO.findByProductId(productId);
 	}
 	
 	@POST
@@ -54,7 +54,19 @@ public class ModelProductResource {
 	
 	@DELETE
 	@Path("/{productId}")
-	public void delete(@PathParam("productId") int productId) {
-		modelproductDAO.deleteByModelId(productId);
+	public void deleteProductId(@PathParam("productId") int productId) {
+		modelproductDAO.deleteByProductId(productId);
+	}
+	
+	@GET
+	@Path("/model/{modelId}")
+	public List<ModelProduct> getAllWithModelId(@PathParam("modelId") int modelId) {
+		return modelproductDAO.findByModelId(modelId);
+	}
+	
+	@DELETE
+	@Path("/model/{modelId}")
+	public void deleteModelId(@PathParam("modelId") int modelId) {
+		modelproductDAO.deleteByModelId(modelId);
 	}
 }
