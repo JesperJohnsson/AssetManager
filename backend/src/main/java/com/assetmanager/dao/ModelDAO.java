@@ -15,14 +15,12 @@ import com.assetmanager.solution.model.mapper.ModelMapper;
 public interface ModelDAO {
 	
 	//Statistics
-	@SqlQuery("SELECT COUNT(MODELID) FROM MODEL")
-	int getAmountModel();
 	
-	@SqlQuery("SELECT AVG(M_WARRANTY) FROM MODEL")
-	int getAverageWarranty();
+	@SqlQuery("SELECT AVG(CAST(M_WARRANTY AS FLOAT)) AS AVG_WARRANTY FROM MODEL WHERE TYPE = :type")
+	Float getAverageWarranty(@Bind("type") String type);
 	
-	@SqlQuery("SELECT AVG(M_LIFESPAN) FROM MODEL")
-	int getAverageLifespan();
+	@SqlQuery("SELECT AVG(CAST(M_LIFESPAN AS FLOAT)) AS AVG_LIFESPAN FROM MODEL WHERE TYPE = :type")
+	Float getAverageLifespan(@Bind("type") String type);
 	
 	//------------------------------------------------
 	

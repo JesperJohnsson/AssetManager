@@ -6,8 +6,11 @@
         <div class="col-lg-6">
             <h2>Model <small>: {{total}}</small></h2>
         </div>
-        <div class="col-lg-3 col-lg-offset-3">
+        <div class="col-lg-3">
             <select style="margin-top:30px;" class="form-control" ng-model="type" ng-change="changeData(nrOfTypesData)" ng-options="type as type for type in types"></select>
+        </div>
+        <div class="col-lg-3">
+            <select style="margin-top:30px;" class="form-control" ng-model="type2" ng-options="type2 as type2 for type2 in types2"></select>
         </div>
     </div>
     <hr>
@@ -18,6 +21,11 @@
             </canvas>
         </div>
         <div class="col-lg-6">
+            <strong>Average years of every type.</strong>
+            <hr style="margin-top:5px;">
+            <canvas id="base" class="chart-base" chart-type="type2"
+              chart-data="averageData" chart-labels="labels" chart-series="series">
+            </canvas>
         </div>
     </div>
 </div>
@@ -33,12 +41,19 @@
     </div>
     <hr>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-10">
             <canvas id="base" class="chart-base" chart-type="type"
-              chart-data="data" chart-labels="labels" chart-legend="true">
+              chart-data="data" chart-labels="labels" chart-series="series">
             </canvas>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-2">
+            <div ng-repeat="d in data track by $index">
+                <strong>{{series[$index]}}</strong>
+                <hr style="margin-top:5px;">
+                <canvas id="base" class="chart-doughnut" chart-type="Doughnut"
+                  chart-data="d" chart-labels="labels">
+                </canvas>
+            </div>
         </div>
     </div>
 </div>

@@ -41,21 +41,15 @@ public class ModelResource {
 	}
 	
 	@GET
-	@Path("/amount")
-	public int getAmountModel() {
-		return modelDAO.getAmountModel();
+	@Path("/warranty/{type}")
+	public Float getAverageWarranty(@PathParam("type") String type) {
+		return modelDAO.getAverageWarranty(type);
 	}
 	
 	@GET
-	@Path("/warranty_a")
-	public int getAverageWarranty() {
-		return modelDAO.getAverageWarranty();
-	}
-	
-	@GET
-	@Path("/lifespan_a")
-	public int getAverageLifespan() {
-		return modelDAO.getAverageLifespan();
+	@Path("/lifespan/{type}")
+	public Float getAverageLifespan(@PathParam("type") String type) {
+		return modelDAO.getAverageLifespan(type);
 	}
 	
 	@GET
