@@ -11,7 +11,7 @@ database:
   driverClass: org.h2.Driver
   user: sa
 #  password:
-  url: jdbc:h2:~/test
+  url: jdbc:h2:file:~/assetmanager
   properties:
     charSet: UTF-8
   maxWaitForConnection: 1s

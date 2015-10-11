@@ -1,5 +1,5 @@
 apply plugin: 'java'
-apply plugin: 'flyway'
+apply plugin: 'org.flywaydb.flyway'
 apply plugin: 'gradle-one-jar'
 apply plugin: 'application'
 apply plugin: 'eclipse'
@@ -20,7 +20,7 @@ buildscript {
     dependencies {
         classpath 'com.github.rholder:gradle-one-jar:1.0.4'
         classpath 'com.h2database:h2:1.4.181'
-        classpath 'org.flywaydb:flyway-gradle-plugin:3.0'
+        classpath "org.flywaydb:flyway-gradle-plugin:3.2.1"
     }
 }
 
@@ -41,7 +41,7 @@ dependencies {
 }
 
 flyway {
-    url = 'jdbc:h2:file:~/test'
+    url = 'jdbc:h2:file:~/assetmanager'
     user = 'sa'
 }
 
