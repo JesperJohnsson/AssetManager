@@ -1,6 +1,9 @@
 package com.assetmanager;
 
 
+import java.sql.SQLException;
+
+import org.h2.tools.Server;
 import org.skife.jdbi.v2.DBI;
 
 import com.bazaarvoice.dropwizard.assets.ConfiguredAssetsBundle;
@@ -34,6 +37,16 @@ public class AssetManagerApplication extends Application<AssetManagerConfigurati
     {
 		final DBIFactory factory = new DBIFactory();
 		final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "h2");
+		
+		Server myH2adminGUI;
+		
+		try {
+			myH2adminGUI = org.h2.tools.Server.createWebServer("-webDaemon");
+			myH2adminGUI.start();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		final ModelDAO modelDao = jdbi.onDemand(ModelDAO.class);
 		environment.jersey().register(new ModelResource(modelDao));
