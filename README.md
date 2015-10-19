@@ -10,3 +10,5 @@ Download the zip file or fork the project.
 Make sure you have the H2 database engine installed and all the tables and views created. The SQL code for the database is located in the file 
 
 <pre>backend/src/main/resources/db/migration/db.sql.</pre>
+
+After executing the sql code you should have a working database.
