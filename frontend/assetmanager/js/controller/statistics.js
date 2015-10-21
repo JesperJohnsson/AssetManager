@@ -60,12 +60,18 @@ angular.module('myApp').controller('modelStatsController', ['$scope', '$http', f
             for(var i = 0; i < $scope.labels.length; i++) {
                 $scope.averageData[0][i] = totalWarranty[i] / nrOfTypes[i];
                 $scope.averageData[1][i] = totalLifespan[i] / nrOfTypes[i];
+                if(!isFinite($scope.averageData[0][i])) {
+                    $scope.averageData[0][i] = 0;
+                }
+                if(!isFinite($scope.averageData[1][i])) {
+                    $scope.averageData[1][i] = 0;
+                }
             }
         });
         return nrOfTypes;
     };
 
-
+    $scope.averageData = [[0,0,0,0,0],[0,0,0,0,0]];
     $scope.labels = ["Computer", "Phone", "Screen", "Printer", "License"];
     $scope.series = ['Warranty', 'Lifespan'];
 
@@ -76,5 +82,7 @@ angular.module('myApp').controller('modelStatsController', ['$scope', '$http', f
     $scope.type2 = $scope.types2[0];
 
     $scope.data = $scope.chart();
+
+    console.log($scope.averageData);
 
 }]);
