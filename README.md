@@ -7,13 +7,7 @@ Project for Softhouse in the course Induviduell projektkurs at BTH
 Download the zip file or fork the project. Make sure you know the installation/download path of the project.
 
 ### Database
-Make sure you have the H2 database engine installed and all the tables and views created. When connecting to h2 in the browser, make sure that the database you're connecting to is named ~/assetmanager, the default value is ~/test.
-
-The SQL code for the database is located in the file 
-
-<pre>backend/src/main/resources/db/migration/db.sql.</pre>
-
-After executing the sql code you should have a working database.
+The database will automatically start when starting the application using eclipse or the command prompt.
 
 ### Application
 To run the application you can connect in two ways from eclipse using gradle, or a commandprompt using gradle. 
