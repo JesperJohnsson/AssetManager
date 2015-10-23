@@ -1,12 +1,20 @@
 package com.assetmanager;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.sql.SQLException;
 
 import org.h2.tools.Server;
 import org.skife.jdbi.v2.DBI;
 
 import com.bazaarvoice.dropwizard.assets.ConfiguredAssetsBundle;
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
+import com.google.common.io.Files;
 
 import io.dropwizard.Application;
 import io.dropwizard.jdbi.DBIFactory;
@@ -33,7 +41,7 @@ public class AssetManagerApplication extends Application<AssetManagerConfigurati
 {
 
     @Override
-    public void run(AssetManagerConfiguration configuration, Environment environment)
+    public void run(AssetManagerConfiguration configuration, Environment environment) throws IOException
     {
 		final DBIFactory factory = new DBIFactory();
 		final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "h2");
@@ -42,7 +50,9 @@ public class AssetManagerApplication extends Application<AssetManagerConfigurati
 		
 		try {
 			myH2adminGUI = org.h2.tools.Server.createWebServer("-webDaemon");
-			myH2adminGUI.start();
+			myH2adminGUI.start();			
+			String sql = CharStreams.toString(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("db/migration/db.sql")));
+			jdbi.open().execute(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
